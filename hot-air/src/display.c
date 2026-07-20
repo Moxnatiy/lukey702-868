@@ -77,6 +77,15 @@ void disp_set_dp(uint8_t on)
     else    dbuf[2] &= (uint8_t)~SEG_DP;
 }
 
+void disp_set_all_dp(uint8_t on)
+{
+    if (on) {
+        dbuf[0] |= SEG_DP; dbuf[1] |= SEG_DP; dbuf[2] |= SEG_DP;
+    } else {
+        dbuf[0] &= (uint8_t)~SEG_DP; dbuf[1] &= (uint8_t)~SEG_DP; dbuf[2] &= (uint8_t)~SEG_DP;
+    }
+}
+
 void disp_multiplex(void)
 {
     uint8_t seg = dbuf[cur_digit];

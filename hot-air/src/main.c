@@ -651,6 +651,7 @@ static uint8_t auto_tune(void)
         }
 
         disp_set_number(t);                       /* show the live temperature */
+        disp_set_all_dp((step / 10) & 1);         /* blink all 3 dp -> "tuning" */
     }
 
     HEATER_PWM = 0;

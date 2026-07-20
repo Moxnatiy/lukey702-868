@@ -17,6 +17,10 @@ void disp_show_dashes(void);
 /* Turn the decimal point (dp) of the least-significant digit on/off (at-temp blink). */
 void disp_set_dp(uint8_t on);
 
+/* Turn the decimal points of ALL three digits on/off (used as the auto-tune "busy"
+   indicator). Call after disp_set_number() so the digits keep showing a value. */
+void disp_set_all_dp(uint8_t on);
+
 /* Call from the Timer2 ISR (~1 kHz) - refreshes one digit per call. */
 void disp_multiplex(void);
 

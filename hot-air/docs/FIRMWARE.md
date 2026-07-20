@@ -44,7 +44,9 @@ Implements the official 10-point "hot-air operating algorithm". Code: `src/main.
 
 `out = P·error + I·integral/2048 − d·(t° rise over 0.4s)`, clamped to 0…1023.
 - **P** — proportional band ≈ 1023/P degrees.
-- **I** — removes the residual under-shoot (anti-windup: integral clamped to `HEAT_INT_MAX`).
+- **I** — removes the residual under-shoot. **Anti-windup by conditional integration**: the
+  integral accumulates only while the output is not saturated, so it does not wind up during the
+  full-power cold-start ramp (which otherwise causes a large overshoot). Also clamped to `HEAT_INT_MAX`.
 - **d** — derivative on the MEASUREMENT over a 0.4s window (`DHIST=8` @20Hz). Brakes on fast
   temperature rise. Needed because the **thermocouple is laggy** (mounted near the ceramic,
   heats with a delay -> without D the system overshoots).

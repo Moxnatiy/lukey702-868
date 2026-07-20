@@ -308,13 +308,7 @@ static void update_heater(void)
 {
     int16_t err = setpoint - temp_real;
 
-    /* I: integrate the error (20 Hz) with anti-windup. Never below 0 (heater
-       cannot cool). */
-    heat_integral += err;
-    if (heat_integral < 0)            heat_integral = 0;
-    if (heat_integral > HEAT_INT_MAX) heat_integral = HEAT_INT_MAX;
-
-    /* D: derivative on the MEASUREMENT over a ~0.4 s window (smooths the 1°C
+    /* D: derivative on the MEASUREMENT over a ~1.6 s window (smooths the 1°C
        quantization). Brakes when temperature rises fast -> less overshoot
        given the laggy sensor. */
     int16_t oldt   = thist[thidx];
@@ -322,9 +316,24 @@ static void update_heater(void)
     thidx          = (uint8_t)((thidx + 1) % DHIST);
     int16_t dtemp  = temp_real - oldt;
 
+    /* Tentative output using the current integral. */
     int32_t out = (int32_t)err * g_kp
                 + (heat_integral * g_ki) / 2048
                 - (int32_t)g_kd * dtemp;
+
+    /* Anti-windup (conditional integration): accumulate the integral ONLY while
+       the output is not saturated. During the full-power cold-start ramp the
+       output is pinned at 1023, so the integral stays put instead of winding up
+       and causing a big overshoot; near the setpoint it builds to remove droop. */
+    if (out > 0 && out < 1023) {
+        heat_integral += err;
+        if (heat_integral < 0)            heat_integral = 0;
+        if (heat_integral > HEAT_INT_MAX) heat_integral = HEAT_INT_MAX;
+        out = (int32_t)err * g_kp
+            + (heat_integral * g_ki) / 2048
+            - (int32_t)g_kd * dtemp;
+    }
+
     if (out < 0)    out = 0;
     if (out > 1023) out = 1023;
     HEATER_PWM = (uint16_t)out;

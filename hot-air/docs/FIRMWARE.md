@@ -31,7 +31,7 @@ Implements the official 10-point "hot-air operating algorithm". Code: `src/main.
 |-------|----------------|
 | 1 | `ST_STANDBY`: show setpoint 3s (`T_3S`), then `disp_show_dashes()`; buttons edit setpoint |
 | 2 | Enter `ST_WORK` on `is_off_stand()`; `fan_hold_on()` (PC3=0); heat only while `raw_fan > FAN_ON_RAW` (pin28>0.4V); show setpoint 1s then real t° |
-| 3 | `update_heater()` sets `at_temp`; `update_display()` blinks the dp (`DP_BLINK`) |
+| 3 | `update_heater()` sets `at_temp`; the dp indicators are described below |
 | 4 | `apply_setpoint_step()` — step ±1, show setpoint while editing |
 | 5 | `input_idle >= T_3S` -> `adjusting=0`, back to real t° |
 | 6 | `save_setpoint_if_dirty()` writes the setpoint to EEPROM (0x02) after editing |
@@ -39,6 +39,18 @@ Implements the official 10-point "hot-air operating algorithm". Code: `src/main.
 | 8 | `temp_real <= LO` -> `fan_hold_off()` (PC3=5V) -> `ST_STANDBY` without showing setpoint |
 | 9 | Power-off via the Power Up button is hardware (PC3=5V drops power); same logic |
 | 10 | Display output identical to the reference (shared font table, `display.c`) |
+
+## Display indicators (decimal points)
+
+| State | Decimal points |
+|-------|----------------|
+| Wand **on the stand** (standby / cooldown) | **all three dp steady ON** |
+| Working, showing the setpoint | all dp off |
+| Working, showing the real temperature | **last dp blinks at a rate proportional to the heater PWM** — fast = full power, slow = little power (`DP_PWM_FAST`…`DP_PWM_SLOW`) |
+| Auto-tune (`AT`) running | all three dp blink ~1 Hz |
+
+Idle on the stand the fan section is also powered down (PC3=5V), except for the first 3 s
+after power-on, where the latch is held so the Power Up button can be released.
 
 ## Heater control — PID (PWM on OC1A, 20 Hz)
 

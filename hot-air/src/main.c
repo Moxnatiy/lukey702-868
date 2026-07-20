@@ -115,7 +115,10 @@
 #define T_1S         100
 #define REPEAT_DELAY  50             /* 0.5 s before autorepeat starts            */
 #define REPEAT_PERIOD  5             /* then 20 steps/s (every 50 ms)             */
-#define DP_BLINK      50             /* dp blink: toggle every 500 ms             */
+/* Heating indicator: the last dp blinks at a rate proportional to the heater PWM
+ * (fast = full power, slow = little power). Values are toggle intervals in 10 ms ticks. */
+#define DP_PWM_FAST    5             /* toggle every 50 ms at full PWM (fast)     */
+#define DP_PWM_SLOW  100             /* toggle every 1 s at zero PWM (slow)       */
 
 /* Temperature sampling and heater control run at 20 Hz (every 5 ticks) */
 #define CTRL_DIV      5
@@ -346,42 +349,47 @@ static void update_heater(void)
 /* ===================================================================== */
 static void update_display(void)
 {
-    static uint16_t blink;
+    static uint16_t dp_cnt;
+    static uint8_t  dp_state;
 
     switch (state) {
     case ST_STANDBY:
         if (adjusting) {                      /* show setpoint while editing */
-            disp_set_dp(0);
             disp_set_number(setpoint);
         } else if (show_sp_on_standby && entry_timer < T_3S) {
-            disp_set_dp(0);
             disp_set_number(setpoint);        /* point 1: show setpoint for 3 s */
         } else {
             disp_show_dashes();               /* point 1: then "---"            */
         }
+        disp_set_all_dp(1);                   /* on the stand -> all dp steady on */
         break;
 
     case ST_WORK:
         if (adjusting) {                      /* point 4: show setpoint         */
-            disp_set_dp(0);
             disp_set_number(setpoint);
+            disp_set_all_dp(0);
         } else if (entry_timer < T_1S) {
-            disp_set_dp(0);
             disp_set_number(setpoint);        /* point 2: show setpoint for 1 s */
+            disp_set_all_dp(0);
         } else {
             disp_set_number(temp_real);       /* real temperature               */
-            /* point 3: blink the dp on the least-significant digit when reached */
-            if (at_temp) disp_set_dp((blink / DP_BLINK) & 1);
-            else         disp_set_dp(0);
+            disp_set_all_dp(0);
+            /* Heating indicator: the last dp blinks proportionally to the heater
+               PWM - fast at full power, slow at low power. */
+            uint16_t pwm  = OCR1A;            /* current heater duty, 0..1023 */
+            uint16_t half = DP_PWM_SLOW -
+                            (uint16_t)(((uint32_t)pwm * (DP_PWM_SLOW - DP_PWM_FAST)) / 1023);
+            if (half < DP_PWM_FAST) half = DP_PWM_FAST;
+            if (++dp_cnt >= half) { dp_cnt = 0; dp_state ^= 1; }
+            disp_set_dp(dp_state);
         }
         break;
 
     case ST_COOLDOWN:
-        disp_set_dp(0);
         disp_set_number(temp_real);           /* show the wand cooling down      */
+        disp_set_all_dp(1);                   /* on the stand -> all dp steady on */
         break;
     }
-    blink++;
 }
 
 /* ===================================================================== */
@@ -423,6 +431,11 @@ static void control_step(void)
     switch (state) {
     case ST_STANDBY:
         heater_off();
+        /* Idle on the stand: keep the fan section powered down (PC3=5V, point 8).
+           Exception: during the first T_3S after power-on we hold the latch
+           (PC3=0) so the Power Up button can be released before it drops. */
+        if (!(show_sp_on_standby && entry_timer < T_3S))
+            fan_hold_off();
         if (is_off_stand()) {                  /* point 2: wand removed from stand */
             show_sp_on_standby = 1;
             enter_state(ST_WORK);

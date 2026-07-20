@@ -106,7 +106,7 @@ on heat-up, decrease `P` and/or increase `d`. If it settles below the setpoint, 
 ## Auto-tune (relay / Åström–Hägglund)
 
 The `AT` item tunes `P`/`I`/`d` automatically instead of by hand. It runs a bang-bang **relay**
-around **300 °C**, so the temperature settles into a sustained oscillation; the firmware measures
+around **250 °C** (max 450 °C), so the temperature settles into a sustained oscillation; the firmware measures
 its period `Pu` and amplitude `a`, computes the ultimate gain `Ku = 4·AT_D/(π·a)`, applies the
 **Tyreus–Luyben** rules, maps them to our discrete P/I/d (20 Hz loop, integral scale 2048,
 derivative window `DHIST`·0.05 s = 1.6 s) and saves the result.

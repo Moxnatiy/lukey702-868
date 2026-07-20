@@ -84,12 +84,12 @@
 /* PID relay auto-tune (Astrom-Hagglund). Runs a bang-bang relay around AT_TEMP,
  * measures the limit-cycle period (Pu) and amplitude (a), computes the ultimate
  * gain Ku = 4*AT_D/(pi*a) and applies Tyreus-Luyben rules -> g_kp/g_ki/g_kd. */
-#define AT_TEMP        300           /* tuning temperature, °C                    */
+#define AT_TEMP        250           /* tuning temperature, °C                    */
 #define AT_HYST          2           /* relay hysteresis, °C                      */
-#define AT_RELAY_HIGH  600           /* heater PWM while heating (relay high)     */
+#define AT_RELAY_HIGH  400           /* heater PWM while heating (relay high)     */
 #define AT_RELAY_LOW     0           /* heater PWM while cooling (relay low)      */
-#define AT_D           300           /* relay half-amplitude = (HIGH-LOW)/2       */
-#define AT_TEMP_MAX    400           /* safety: abort if temperature exceeds this */
+#define AT_D           200           /* relay half-amplitude = (HIGH-LOW)/2       */
+#define AT_TEMP_MAX    450           /* safety: abort if temperature exceeds this */
 #define AT_TIMEOUT    6000           /* safety: abort after this many 20Hz steps  */
 #define AT_SKIP          1           /* discard the first cycle (warm-up transient)*/
 #define AT_USE           3           /* number of cycles to average               */
@@ -661,11 +661,11 @@ static uint8_t auto_tune(void)
         int16_t  a  = (int16_t)((sum_a / AT_USE) / 2);      /* amplitude, °C       */
         if (a  < 1) a  = 1;
         if (pu < 1) pu = 1;
-        /* Tyreus-Luyben + our scaling (AT_D=300, dt=0.05s, Tw=1.6s, Iscale=2048):
-           g_kp = 174/a ; g_ki = 161640/(a*pu) ; g_kd = 861*pu/(1000*a) */
-        g_kp = clamp_param(0, (int16_t)(174L / a));
-        g_ki = clamp_param(1, (int16_t)(161640L / ((int32_t)a * pu)));
-        g_kd = clamp_param(2, (int16_t)((861L * pu) / (1000L * a)));
+        /* Tyreus-Luyben + our scaling (AT_D=200, dt=0.05s, Tw=1.6s, Iscale=2048):
+           g_kp = 116/a ; g_ki = 107760/(a*pu) ; g_kd = 574*pu/(1000*a) */
+        g_kp = clamp_param(0, (int16_t)(116L / a));
+        g_ki = clamp_param(1, (int16_t)(107760L / ((int32_t)a * pu)));
+        g_kd = clamp_param(2, (int16_t)((574L * pu) / (1000L * a)));
         save_param(0); save_param(1); save_param(2);
     }
     return result;

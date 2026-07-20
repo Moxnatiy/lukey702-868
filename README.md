@@ -15,10 +15,23 @@ calibration menu.
 
 | Folder | MCU | Status |
 |--------|-----|--------|
-| [`hot-air/`](hot-air/) | Hot-air gun (fan) — ATmega8L | ✅ working: full PID, on-station CAL menu, flashed & tested |
+| [`hot-air/`](hot-air/) | Hot-air gun (fan) — ATmega8L | ✅ working: PID + auto-tune, on-station CAL menu, flashed & tested |
 | [`solder-iron/`](solder-iron/) | Soldering iron — ATmega8 | 🚧 planned |
 
 Each subproject is self-contained (source, docs, Makefile, VS Code config).
+
+## Hot-air firmware — features
+
+- Full state machine **standby → work → cooldown** per the official 10-point algorithm.
+- **PID** heater control (P/I/d) at 20 Hz, tuned for the laggy in-wand thermocouple.
+- **On-station calibration menu** (hold **UP** at power-on → `CAL`), no recompiling needed:
+  - edit `P` / `I` / `d`, the ADC→°C offset (`OF`) and the cutoff temperature (`LO`);
+  - `TST` — display self-test (lights every segment);
+  - **`AT` — one-touch PID auto-tune** (relay / Åström–Hägglund method @250 °C).
+- High-quality ADC (prescaler /128, 16× oversampling, 20 Hz temperature updates).
+- Setpoint **100–480 °C**, saved to EEPROM; the EESAVE fuse keeps your calibration across reflashes.
+
+Prebuilt firmware is attached to each [release](https://github.com/Moxnatiy/lukey702-868/releases).
 
 ## Hardware
 

@@ -42,13 +42,14 @@
 /* ===================================================================== */
 /*  Temperature calibration                                               */
 /*  T = raw * TEMP_SLOPE_NUM / TEMP_SLOPE_DEN + g_offset                   */
-/*  ⚠ The slope below is a STARTING GUESS carried over from the hot-air     */
-/*  channel (AREF is also ~2.5 V there). The iron uses a different OP07     */
-/*  stage, so calibrate on hardware: use the CAL menu item `Ad` to read the */
-/*  raw ADC at two known temperatures, then fix the slope/offset.           */
+/*  Calibrated on hardware from two measured points:                       */
+/*      raw =   0  ->  30 °C   (room temperature)                          */
+/*      raw = 535  -> 300 °C   (verified with a thermometer)               */
+/*  -> slope 270/535 = 0.505 °C per count, offset 30.                      */
+/*  Refine the offset via the CAL menu item `OF`; `Ad` shows the raw ADC.   */
 /* ===================================================================== */
-#define TEMP_SLOPE_NUM 430
-#define TEMP_SLOPE_DEN 643
+#define TEMP_SLOPE_NUM 270
+#define TEMP_SLOPE_DEN 535
 
 /* ===================================================================== */
 /*  Control parameters / limits                                           */
@@ -62,7 +63,7 @@
 #define DEF_KP       22              /* P: proportional gain                      */
 #define DEF_KI       17              /* I: integral gain (term = integral*KI/2048)*/
 #define DEF_KD        0              /* d: derivative gain                        */
-#define DEF_OFFSET   38              /* OF: ADC->°C offset (calibrate on hardware)*/
+#define DEF_OFFSET   30              /* OF: ADC->°C offset (calibrated: raw 0 = 30 °C) */
 #define HEAT_INT_MAX 80000           /* anti-windup: integral accumulator limit   */
 #define DHIST        32              /* derivative window: 32 steps @20Hz = 1.6 s */
 

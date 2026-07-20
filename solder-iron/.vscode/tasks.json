@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "options": {
+    "env": {
+      "PATH": "${env:HOME}/.platformio/packages/toolchain-atmelavr/bin:${env:PATH}"
+    }
+  },
+  "tasks": [
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "make",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "clean",
+      "type": "shell",
+      "command": "make clean"
+    },
+    {
+      "label": "flash (наша прошивка, USBASP)",
+      "type": "shell",
+      "command": "make flash",
+      "problemMatcher": []
+    },
+    {
+      "label": "flash-orig (Luk702_fan_SE-2)",
+      "type": "shell",
+      "command": "make flash-orig",
+      "problemMatcher": []
+    },
+    {
+      "label": "read-back (перевірка чипа)",
+      "type": "shell",
+      "command": "make read",
+      "problemMatcher": []
+    }
+  ]
+}

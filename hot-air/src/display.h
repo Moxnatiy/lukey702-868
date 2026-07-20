@@ -44,5 +44,8 @@ void disp_set_raw(uint8_t left, uint8_t mid, uint8_t right);
 #define GL_O (SG_A|SG_B|SG_C|SG_D|SG_E|SG_F)
 #define GL_F (SG_A|SG_E|SG_F|SG_G)
 #define GL_d (SG_B|SG_C|SG_D|SG_E|SG_G)
+#define GL_t (SG_D|SG_E|SG_F|SG_G)
+#define GL_S (SG_A|SG_C|SG_D|SG_F|SG_G)
+#define GL_ALL 0xFF                    /* all 8 segments (incl. dp) - display test */
 
 #endif

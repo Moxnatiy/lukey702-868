@@ -93,7 +93,8 @@
 #define LO_MIN 40
 #define LO_MAX 120
 
-#define NUM_ITEMS 5                  /* menu items: P I d OF LO */
+#define NUM_ITEMS 6                  /* menu items: P I d OF LO TST */
+#define ITEM_TST  5                  /* display test (lights all segments) */
 
 /* Timings in 10 ms ticks (Timer0 ~100 Hz) */
 #define T_3S         300
@@ -562,16 +563,17 @@ static void show_menu_label(uint8_t item)
     switch (item) {
     case 0:  disp_set_raw(GL_P, GL_BLANK, GL_BLANK); break;   /* P  */
     case 1:  disp_set_raw(GL_I, GL_BLANK, GL_BLANK); break;   /* I  */
-    case 2:  disp_set_raw(GL_d, GL_BLANK, GL_BLANK); break;   /* d  */
-    case 3:  disp_set_raw(GL_O, GL_F, GL_BLANK);     break;   /* OF */
-    default: disp_set_raw(GL_L, GL_O, GL_BLANK);     break;   /* LO */
+    case 2:  disp_set_raw(GL_d, GL_BLANK, GL_BLANK); break;   /* d   */
+    case 3:  disp_set_raw(GL_O, GL_F, GL_BLANK);     break;   /* OF  */
+    case 4:  disp_set_raw(GL_L, GL_O, GL_BLANK);     break;   /* LO  */
+    default: disp_set_raw(GL_t, GL_S, GL_t);         break;   /* TST */
     }
 }
 
 /* ===================================================================== */
 /*  Calibration menu. The triac is FORCED OFF (zero voltage to the heater).*/
-/*  Tree: [P] [I] [d] [OF] [LO]. UP-2s = enter, DN-2s = back/exit,          */
-/*  short UP/DN = navigate / change the value ±1.                          */
+/*  Tree: [P] [I] [d] [OF] [LO] [TST]. UP-2s = enter, DN-2s = back/exit,    */
+/*  short UP/DN = navigate / change the value ±1. TST lights all segments.  */
 /* ===================================================================== */
 static void cal_mode(void)
 {
@@ -605,10 +607,13 @@ static void cal_mode(void)
         if (level == 0) {               /* --- ROOT --- */
             if      (ev == EV_UP)      item = (uint8_t)((item + 1) % NUM_ITEMS);
             else if (ev == EV_DN)      item = (uint8_t)((item + NUM_ITEMS - 1) % NUM_ITEMS);
-            else if (ev == EV_UP_LONG) { val = get_param(item); level = 1; }
+            else if (ev == EV_UP_LONG) {
+                if (item == ITEM_TST) level = 2;            /* display test */
+                else { val = get_param(item); level = 1; } /* edit a parameter */
+            }
             else if (ev == EV_DN_LONG) return;             /* exit calibration */
             show_menu_label(item);
-        } else {                        /* --- EDIT --- */
+        } else if (level == 1) {        /* --- EDIT --- */
             if      (ev == EV_UP)      val = clamp_param(item, val + 1);
             else if (ev == EV_DN)      val = clamp_param(item, val - 1);
             else if (ev == EV_UP_LONG || ev == EV_DN_LONG) {
@@ -617,6 +622,9 @@ static void cal_mode(void)
                 level = 0;
             }
             disp_set_number(val);
+        } else {                        /* --- DISPLAY TEST (TST) --- */
+            disp_set_raw(GL_ALL, GL_ALL, GL_ALL);   /* all segments + dp on */
+            if (ev == EV_UP_LONG || ev == EV_DN_LONG) level = 0;   /* back */
         }
     }
 }

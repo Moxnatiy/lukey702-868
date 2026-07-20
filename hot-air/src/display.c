@@ -51,11 +51,12 @@ void disp_set_number(int16_t value)
     uint8_t dp = dbuf[2] & SEG_DP;         /* preserve the decimal point */
     if (value < 0)   value = 0;
     if (value > 999) value = 999;
-    dbuf[0] = font[(value / 100) % 10];   /* DG3 (left)   - hundreds */
-    dbuf[1] = font[(value / 10)  % 10];   /* DG2 (middle) - tens     */
+    /* Compute the already-blanked hundreds digit BEFORE writing dbuf[0], so the
+       multiplex ISR can never catch a transient un-blanked leading zero. */
+    uint8_t hundreds = (value < 100) ? 0 : font[(value / 100) % 10];
+    dbuf[0] = hundreds;                    /* DG3 (left)   - hundreds (blank if <100) */
+    dbuf[1] = font[(value / 10)  % 10];    /* DG2 (middle) - tens     */
     dbuf[2] = font[ value        % 10] | dp;   /* DG1 (right) - units (+dp) */
-    /* Blank the leading zero of the hundreds digit */
-    if (value < 100) dbuf[0] = 0;
 }
 
 void disp_show_dashes(void)
@@ -78,12 +79,15 @@ void disp_set_dp(uint8_t on)
 
 void disp_multiplex(void)
 {
+    uint8_t seg = dbuf[cur_digit];
     /* 1) blank ALL digits (active high -> drive to 0) */
     PORTB &= (uint8_t)~(DIG1_MASK | DIG2_MASK | DIG3_MASK);
     /* 2) drive the segments of the current digit (inverted: 0 = lit) */
-    PORTD = (uint8_t)~dbuf[cur_digit];
-    /* 3) enable the current digit (active high -> drive to 1) */
-    PORTB |= digit_mask[cur_digit];
+    PORTD = (uint8_t)~seg;
+    /* 3) enable the current digit ONLY if it has something to show.
+     *    A blank digit keeps its anode low, which prevents ghosting (a faint
+     *    image bleeding onto an otherwise-dark digit during multiplexing). */
+    if (seg) PORTB |= digit_mask[cur_digit];
     /* 4) advance to the next digit */
     if (++cur_digit >= 3) cur_digit = 0;
 }

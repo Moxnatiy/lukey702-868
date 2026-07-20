@@ -29,6 +29,8 @@ Each subproject is self-contained (source, docs, Makefile, VS Code config).
   - `TST` — display self-test (lights every segment);
   - **`AT` — one-touch PID auto-tune** (relay / Åström–Hägglund method @250 °C).
 - High-quality ADC (prescaler /128, 16× oversampling, 20 Hz temperature updates).
+- **Decimal-point indicators:** all three dp steady while the wand rests on the stand; during
+  heating the last dp blinks at a rate proportional to the heater PWM (fast = full power).
 - Setpoint **100–480 °C**, saved to EEPROM; the EESAVE fuse keeps your calibration across reflashes.
 
 Prebuilt firmware is attached to each [release](https://github.com/Moxnatiy/lukey702-868/releases).

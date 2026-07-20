@@ -1,0 +1,17 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "AVR ATmega8",
+      "compilerPath": "${env:HOME}/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
+      "includePath": [
+        "${workspaceFolder}/src",
+        "${env:HOME}/.platformio/packages/toolchain-atmelavr/avr/include",
+        "${env:HOME}/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include"
+      ],
+      "defines": ["F_CPU=8000000UL", "__AVR_ATmega8__"],
+      "cStandard": "gnu11",
+      "intelliSenseMode": "gcc-x64"
+    }
+  ]
+}

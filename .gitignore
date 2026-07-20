@@ -1,0 +1,16 @@
+# Build artifacts
+*.elf
+*.o
+*.lst
+*.map
+fan.hex
+iron.hex
+readback.*
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*~

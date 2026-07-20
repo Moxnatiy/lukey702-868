@@ -1,0 +1,1588 @@
+; Disassembly of original/main.hex  (3428 bytes, 1714 words)
+; Target: ATmega8, internal RC clock
+
+0000:	c038     	rjmp  0x0072   ; <RESET>
+0002:	cffe     	rjmp  0x0000   ; <INT0>
+0004:	cffd     	rjmp  0x0000   ; <INT1>
+0006:	cffc     	rjmp  0x0000   ; <TIMER2_COMP>
+0008:	c0cd     	rjmp  0x01a4   ; <TIMER2_OVF>
+000a:	cffa     	rjmp  0x0000   ; <TIMER1_CAPT>
+000c:	cff9     	rjmp  0x0000   ; <TIMER1_COMPA>
+000e:	cff8     	rjmp  0x0000   ; <TIMER1_COMPB>
+0010:	cff7     	rjmp  0x0000   ; <TIMER1_OVF>
+0012:	c06b     	rjmp  0x00ea   ; <TIMER0_OVF>
+0014:	cff5     	rjmp  0x0000   ; <SPI_STC>
+0016:	cff4     	rjmp  0x0000   ; <USART_RXC>
+0018:	cff3     	rjmp  0x0000   ; <USART_UDRE>
+001a:	cff2     	rjmp  0x0000   ; <USART_TXC>
+001c:	cff1     	rjmp  0x0000   ; <ADC>
+001e:	cff0     	rjmp  0x0000   ; <EE_RDY>
+0020:	cfef     	rjmp  0x0000   ; <ANA_COMP>
+0022:	cfee     	rjmp  0x0000   ; <TWI>
+0024:	cfed     	rjmp  0x0000   ; <SPM_RDY>
+0026:	5f50     	subi  r21, 0xf0
+0028:	1a38     	sub   r3, r24
+002a:	9217     	.word 0x9217
+002c:	5e90     	subi  r25, 0xe0
+002e:	1210     	cpse  r1, r16
+0030:	bfff     	out   SREG, r31
+0032:	0001     	.word 0x0001
+0034:	0438     	cpc   r3, r8
+0036:	0002     	.word 0x0002
+0038:	001e     	.word 0x001e
+003a:	01f4     	movw  r30, r8
+003c:	0001     	.word 0x0001
+003e:	0001     	.word 0x0001
+0040:	4e2d     	sbci  r18, 0xed
+0042:	4e41     	sbci  r20, 0xe1
+0044:	0000     	nop
+0046:	0002     	.word 0x0002
+0048:	0002     	.word 0x0002
+004a:	0032     	.word 0x0032
+004c:	0002     	.word 0x0002
+004e:	0174     	movw  r14, r8
+0050:	0034     	.word 0x0034
+0052:	0001     	.word 0x0001
+0054:	0176     	movw  r14, r12
+0056:	0036     	.word 0x0036
+0058:	0001     	.word 0x0001
+005a:	0188     	movw  r16, r16
+005c:	0038     	.word 0x0038
+005e:	0002     	.word 0x0002
+0060:	018a     	movw  r16, r20
+0062:	003a     	.word 0x003a
+0064:	0002     	.word 0x0002
+0066:	0006     	.word 0x0006
+0068:	003c     	.word 0x003c
+006a:	0001     	.word 0x0001
+006c:	019a     	movw  r18, r20
+006e:	003e     	.word 0x003e
+0070:	0000     	nop
+0072:	94f8     	sei
+0074:	27ee     	eor   r30, r30
+0076:	bbec     	out   EECR, r30
+0078:	e0f1     	ldi   r31, 0x01
+007a:	bffb     	out   GICR, r31
+007c:	bfeb     	out   GICR, r30
+007e:	bfe5     	out   MCUCR, r30
+0080:	e1f8     	ldi   r31, 0x18
+0082:	bdf1     	out   WDTCR, r31
+0084:	bde1     	out   WDTCR, r30
+0086:	e08d     	ldi   r24, 0x0d
+0088:	e0a2     	ldi   r26, 0x02
+008a:	27bb     	eor   r27, r27
+008c:	93ed     	st    X+, r30
+008e:	958a     	dec   r24
+0090:	f7e9     	brne  0x008c
+0092:	e080     	ldi   r24, 0x00
+0094:	e094     	ldi   r25, 0x04
+0096:	e6a0     	ldi   r26, 0x60
+0098:	93ed     	st    X+, r30
+009a:	9701     	sbiw  r24, 0x01
+009c:	f7e9     	brne  0x0098
+009e:	e4e6     	ldi   r30, 0x46
+00a0:	e0f0     	ldi   r31, 0x00
+00a2:	9185     	lpm   r24, Z+
+00a4:	9195     	lpm   r25, Z+
+00a6:	9700     	sbiw  r24, 0x00
+00a8:	f061     	breq  0x00c2
+00aa:	91a5     	lpm   r26, Z+
+00ac:	91b5     	lpm   r27, Z+
+00ae:	9005     	lpm   r0, Z+
+00b0:	9015     	lpm   r1, Z+
+00b2:	01bf     	movw  r22, r30
+00b4:	01f0     	movw  r30, r0
+00b6:	9005     	lpm   r0, Z+
+00b8:	920d     	st    X+, r0
+00ba:	9701     	sbiw  r24, 0x01
+00bc:	f7e1     	brne  0x00b6
+00be:	01fb     	movw  r30, r22
+00c0:	cff0     	rjmp  0x00a2
+00c2:	e5ef     	ldi   r30, 0x5f
+00c4:	bfed     	out   SPL, r30
+00c6:	e0e4     	ldi   r30, 0x04
+00c8:	bfee     	out   SPH, r30
+00ca:	e6c0     	ldi   r28, 0x60
+00cc:	e0d1     	ldi   r29, 0x01
+00ce:	c0f4     	rjmp  0x02b8
+00d0:	81e8     	ldd   r30, Y+0
+00d2:	b9e7     	out   ADMUX, r30
+00d4:	e18b     	ldi   r24, 0x1b
+00d6:	958a     	dec   r24
+00d8:	f7f1     	brne  0x00d6
+00da:	9a36     	sbi  ADCSRA, 6
+00dc:	9b34     	sbis  ADCSRA, 4
+00de:	cffe     	rjmp  0x00dc
+00e0:	9a34     	sbi  ADCSRA, 4
+00e2:	b1e4     	in    r30, ADCL
+00e4:	b1f5     	in    r31, ADCH
+00e6:	9621     	adiw  r28, 0x01
+00e8:	9508     	ret
+00ea:	920a     	st    -Y, r0
+00ec:	93aa     	st    -Y, r26
+00ee:	93ba     	st    -Y, r27
+00f0:	93ea     	st    -Y, r30
+00f2:	93fa     	st    -Y, r31
+00f4:	b7ef     	in    r30, SREG
+00f6:	93ea     	st    -Y, r30
+00f8:	ebe2     	ldi   r30, 0xb2
+00fa:	bfe2     	out   TCNT0, r30
+00fc:	01f3     	movw  r30, r6
+00fe:	9731     	sbiw  r30, 0x01
+0100:	013f     	movw  r6, r30
+0102:	2c06     	mov   r0, r6
+0104:	2807     	or    r0, r7
+0106:	f459     	brne  0x011e
+0108:	e1e9     	ldi   r30, 0x19
+010a:	e0f0     	ldi   r31, 0x00
+010c:	013f     	movw  r6, r30
+010e:	91e0 016e	lds   r30, 0x016e
+0112:	91f0 016f	lds   r31, 0x016f
+0116:	93e0 0172	sts   0x0172, r30
+011a:	93f0 0173	sts   0x0173, r31
+011e:	fe20     	sbrs  r2, 0
+0120:	c003     	rjmp  0x0128
+0122:	d369     	rcall 0x07f6
+0124:	97d3     	sbiw  r26, 0x33
+0126:	f008     	brcs  0x012a
+0128:	c012     	rjmp  0x014e
+012a:	e8a0     	ldi   r26, 0x80
+012c:	e0b1     	ldi   r27, 0x01
+012e:	d368     	rcall 0x0800
+0130:	d36a     	rcall 0x0806
+0132:	91a0 0180	lds   r26, 0x0180
+0136:	91b0 0181	lds   r27, 0x0181
+013a:	36a5     	cpi   r26, 0x65
+013c:	e0e0     	ldi   r30, 0x00
+013e:	07be     	cpc   r27, r30
+0140:	f028     	brcs  0x014c
+0142:	9aab     	sbi  PORTC, 3
+0144:	9aa5     	sbi  DDRC, 5
+0146:	9468     	set
+0148:	f821     	bld   r2, 1
+014a:	d361     	rcall 0x080e
+014c:	c001     	rjmp  0x0150
+014e:	d35f     	rcall 0x080e
+0150:	d364     	rcall 0x081a
+0152:	9736     	sbiw  r30, 0x06
+0154:	d367     	rcall 0x0824
+0156:	f430     	brcc  0x0164
+0158:	d360     	rcall 0x081a
+015a:	9636     	adiw  r30, 0x06
+015c:	d367     	rcall 0x082c
+015e:	f410     	brcc  0x0164
+0160:	fe23     	sbrs  r2, 3
+0162:	c001     	rjmp  0x0166
+0164:	c004     	rjmp  0x016e
+0166:	e8ac     	ldi   r26, 0x8c
+0168:	e0b1     	ldi   r27, 0x01
+016a:	d364     	rcall 0x0834
+016c:	c010     	rjmp  0x018e
+016e:	e9e0     	ldi   r30, 0x90
+0170:	e0f1     	ldi   r31, 0x01
+0172:	93e0 018c	sts   0x018c, r30
+0176:	93f0 018d	sts   0x018d, r31
+017a:	d34f     	rcall 0x081a
+017c:	973f     	sbiw  r30, 0x0f
+017e:	d356     	rcall 0x082c
+0180:	f020     	brcs  0x018a
+0182:	d34b     	rcall 0x081a
+0184:	963f     	adiw  r30, 0x0f
+0186:	d34e     	rcall 0x0824
+0188:	f410     	brcc  0x018e
+018a:	94e8     	set
+018c:	f823     	bld   r2, 3
+018e:	e8aa     	ldi   r26, 0x8a
+0190:	e0b1     	ldi   r27, 0x01
+0192:	d350     	rcall 0x0834
+0194:	91e9     	ld    r30, Y+
+0196:	bfef     	out   SREG, r30
+0198:	91f9     	ld    r31, Y+
+019a:	91e9     	ld    r30, Y+
+019c:	91b9     	ld    r27, Y+
+019e:	91a9     	ld    r26, Y+
+01a0:	9009     	ld    r0, Y+
+01a2:	9518     	reti
+01a4:	920a     	st    -Y, r0
+01a6:	921a     	st    -Y, r1
+01a8:	92fa     	st    -Y, r15
+01aa:	936a     	st    -Y, r22
+01ac:	937a     	st    -Y, r23
+01ae:	938a     	st    -Y, r24
+01b0:	939a     	st    -Y, r25
+01b2:	93aa     	st    -Y, r26
+01b4:	93ba     	st    -Y, r27
+01b6:	93ea     	st    -Y, r30
+01b8:	93fa     	st    -Y, r31
+01ba:	b7ef     	in    r30, SREG
+01bc:	93ea     	st    -Y, r30
+01be:	e8e3     	ldi   r30, 0x83
+01c0:	bde4     	out   TCNT2, r30
+01c2:	2c08     	mov   r0, r8
+01c4:	2809     	or    r0, r9
+01c6:	f009     	breq  0x01ca
+01c8:	c05e     	rjmp  0x0286
+01ca:	fe22     	sbrs  r2, 2
+01cc:	c02c     	rjmp  0x0226
+01ce:	d337     	rcall 0x083e
+01d0:	d33b     	rcall 0x0848
+01d2:	f011     	breq  0x01d8
+01d4:	d334     	rcall 0x083e
+01d6:	d33f     	rcall 0x0856
+01d8:	e7a4     	ldi   r26, 0x74
+01da:	e0b1     	ldi   r27, 0x01
+01dc:	d32b     	rcall 0x0834
+01de:	91e0 0174	lds   r30, 0x0174
+01e2:	91f0 0175	lds   r31, 0x0175
+01e6:	9730     	sbiw  r30, 0x00
+01e8:	f469     	brne  0x0204
+01ea:	94e8     	set
+01ec:	f824     	bld   r2, 4
+01ee:	f825     	bld   r2, 5
+01f0:	f822     	bld   r2, 2
+01f2:	d336     	rcall 0x0860
+01f4:	d324     	rcall 0x083e
+01f6:	93e0 0186	sts   0x0186, r30
+01fa:	93f0 0187	sts   0x0187, r31
+01fe:	d31f     	rcall 0x083e
+0200:	d335     	rcall 0x086c
+0202:	d445     	rcall 0x0a8e
+0204:	fe25     	sbrs  r2, 5
+0206:	c00e     	rjmp  0x0224
+0208:	e7a8     	ldi   r26, 0x78
+020a:	e0b1     	ldi   r27, 0x01
+020c:	d332     	rcall 0x0872
+020e:	91a0 0178	lds   r26, 0x0178
+0212:	91b0 0179	lds   r27, 0x0179
+0216:	35aa     	cpi   r26, 0x5a
+0218:	e0e0     	ldi   r30, 0x00
+021a:	07be     	cpc   r27, r30
+021c:	f419     	brne  0x0224
+021e:	d320     	rcall 0x0860
+0220:	e1e0     	ldi   r30, 0x10
+0222:	262e     	eor   r2, r30
+0224:	c005     	rjmp  0x0230
+0226:	d327     	rcall 0x0876
+0228:	d30f     	rcall 0x0848
+022a:	f011     	breq  0x0230
+022c:	d324     	rcall 0x0876
+022e:	d313     	rcall 0x0856
+0230:	e8e0     	ldi   r30, 0x80
+0232:	262e     	eor   r2, r30
+0234:	fe27     	sbrs  r2, 7
+0236:	c027     	rjmp  0x0286
+0238:	e7ae     	ldi   r26, 0x7e
+023a:	e0b1     	ldi   r27, 0x01
+023c:	d31a     	rcall 0x0872
+023e:	d320     	rcall 0x0880
+0240:	36a4     	cpi   r26, 0x64
+0242:	e0e0     	ldi   r30, 0x00
+0244:	07be     	cpc   r27, r30
+0246:	f459     	brne  0x025e
+0248:	e0e0     	ldi   r30, 0x00
+024a:	93e0 017e	sts   0x017e, r30
+024e:	93e0 017f	sts   0x017f, r30
+0252:	d31b     	rcall 0x088a
+0254:	9730     	sbiw  r30, 0x00
+0256:	f011     	breq  0x025c
+0258:	9468     	set
+025a:	f826     	bld   r2, 6
+025c:	c014     	rjmp  0x0286
+025e:	d315     	rcall 0x088a
+0260:	d3cb     	rcall 0x09f8
+0262:	d494     	rcall 0x0b8c
+0264:	01df     	movw  r26, r30
+0266:	01cb     	movw  r24, r22
+0268:	e1e4     	ldi   r30, 0x14
+026a:	eafe     	ldi   r31, 0xae
+026c:	e263     	ldi   r22, 0x23
+026e:	e471     	ldi   r23, 0x41
+0270:	d510     	rcall 0x0c92
+0272:	d306     	rcall 0x0880
+0274:	2788     	eor   r24, r24
+0276:	2799     	eor   r25, r25
+0278:	d3ea     	rcall 0x0a4e
+027a:	d550     	rcall 0x0d1c
+027c:	f009     	breq  0x0280
+027e:	f408     	brcc  0x0282
+0280:	c002     	rjmp  0x0286
+0282:	94e8     	set
+0284:	f826     	bld   r2, 6
+0286:	d227     	rcall 0x06d6
+0288:	01f4     	movw  r30, r8
+028a:	9631     	adiw  r30, 0x01
+028c:	014f     	movw  r8, r30
+028e:	e0e2     	ldi   r30, 0x02
+0290:	e0f0     	ldi   r31, 0x00
+0292:	15e8     	cp    r30, r8
+0294:	05f9     	cpc   r31, r9
+0296:	f410     	brcc  0x029c
+0298:	2488     	eor   r8, r8
+029a:	2499     	eor   r9, r9
+029c:	91e9     	ld    r30, Y+
+029e:	bfef     	out   SREG, r30
+02a0:	91f9     	ld    r31, Y+
+02a2:	91e9     	ld    r30, Y+
+02a4:	91b9     	ld    r27, Y+
+02a6:	91a9     	ld    r26, Y+
+02a8:	9199     	ld    r25, Y+
+02aa:	9189     	ld    r24, Y+
+02ac:	9179     	ld    r23, Y+
+02ae:	9169     	ld    r22, Y+
+02b0:	90f9     	ld    r15, Y+
+02b2:	9019     	ld    r1, Y+
+02b4:	9009     	ld    r0, Y+
+02b6:	9518     	reti
+02b8:	d23d     	rcall 0x0734
+02ba:	e0e0     	ldi   r30, 0x00
+02bc:	93ea     	st    -Y, r30
+02be:	df08     	rcall 0x00d0
+02c0:	93e0 016a	sts   0x016a, r30
+02c4:	93f0 016b	sts   0x016b, r31
+02c8:	91e0 016a	lds   r30, 0x016a
+02cc:	91f0 016b	lds   r31, 0x016b
+02d0:	2766     	eor   r22, r22
+02d2:	2777     	eor   r23, r23
+02d4:	d45b     	rcall 0x0b8c
+02d6:	01df     	movw  r26, r30
+02d8:	01cb     	movw  r24, r22
+02da:	e6e6     	ldi   r30, 0x66
+02dc:	e6f6     	ldi   r31, 0x66
+02de:	ee66     	ldi   r22, 0xe6
+02e0:	e37f     	ldi   r23, 0x3f
+02e2:	d4d7     	rcall 0x0c92
+02e4:	01df     	movw  r26, r30
+02e6:	01cb     	movw  r24, r22
+02e8:	e0e0     	ldi   r30, 0x00
+02ea:	e0f0     	ldi   r31, 0x00
+02ec:	ec68     	ldi   r22, 0xc8
+02ee:	e471     	ldi   r23, 0x41
+02f0:	d3b1     	rcall 0x0a54
+02f2:	d47f     	rcall 0x0bf2
+02f4:	e9a6     	ldi   r26, 0x96
+02f6:	e0b1     	ldi   r27, 0x01
+02f8:	d412     	rcall 0x0b1e
+02fa:	93ed     	st    X+, r30
+02fc:	93fc     	st    X, r31
+02fe:	91a0 0196	lds   r26, 0x0196
+0302:	91b0 0197	lds   r27, 0x0197
+0306:	d52a     	rcall 0x0d5c
+0308:	f44c     	brge  0x031c
+030a:	91e0 0196	lds   r30, 0x0196
+030e:	91f0 0197	lds   r31, 0x0197
+0312:	93e0 016e	sts   0x016e, r30
+0316:	93f0 016f	sts   0x016f, r31
+031a:	c005     	rjmp  0x0326
+031c:	e0e0     	ldi   r30, 0x00
+031e:	93e0 016e	sts   0x016e, r30
+0322:	93e0 016f	sts   0x016f, r30
+0326:	91a0 018a	lds   r26, 0x018a
+032a:	91b0 018b	lds   r27, 0x018b
+032e:	d516     	rcall 0x0d5c
+0330:	f1dc     	brlt  0x03a8
+0332:	d273     	rcall 0x081a
+0334:	9738     	sbiw  r30, 0x08
+0336:	d276     	rcall 0x0824
+0338:	f420     	brcc  0x0342
+033a:	d26f     	rcall 0x081a
+033c:	9634     	adiw  r30, 0x04
+033e:	d276     	rcall 0x082c
+0340:	f008     	brcs  0x0344
+0342:	c01e     	rjmp  0x0380
+0344:	d26a     	rcall 0x081a
+0346:	d272     	rcall 0x082c
+0348:	f418     	brcc  0x0350
+034a:	e8a8     	ldi   r26, 0x88
+034c:	e0b1     	ldi   r27, 0x01
+034e:	d291     	rcall 0x0872
+0350:	d264     	rcall 0x081a
+0352:	d268     	rcall 0x0824
+0354:	f418     	brcc  0x035c
+0356:	e8a8     	ldi   r26, 0x88
+0358:	e0b1     	ldi   r27, 0x01
+035a:	d26c     	rcall 0x0834
+035c:	91a0 0189	lds   r26, 0x0189
+0360:	23aa     	and   r26, r26
+0362:	f42a     	brpl  0x036e
+0364:	e0e0     	ldi   r30, 0x00
+0366:	93e0 0188	sts   0x0188, r30
+036a:	93e0 0189	sts   0x0189, r30
+036e:	d292     	rcall 0x0894
+0370:	30a0     	cpi   r26, 0x00
+0372:	e0e2     	ldi   r30, 0x02
+0374:	07be     	cpc   r27, r30
+0376:	f01c     	brlt  0x037e
+0378:	efef     	ldi   r30, 0xff
+037a:	e0f1     	ldi   r31, 0x01
+037c:	d290     	rcall 0x089e
+037e:	c00e     	rjmp  0x039c
+0380:	d24c     	rcall 0x081a
+0382:	9737     	sbiw  r30, 0x07
+0384:	d253     	rcall 0x082c
+0386:	f020     	brcs  0x0390
+0388:	d248     	rcall 0x081a
+038a:	9637     	adiw  r30, 0x07
+038c:	d24b     	rcall 0x0824
+038e:	f430     	brcc  0x039c
+0390:	d28b     	rcall 0x08a8
+0392:	e0e5     	ldi   r30, 0x05
+0394:	e0f0     	ldi   r31, 0x00
+0396:	d342     	rcall 0x0a1c
+0398:	963a     	adiw  r30, 0x0a
+039a:	d281     	rcall 0x089e
+039c:	e2e3     	ldi   r30, 0x23
+039e:	e0f0     	ldi   r31, 0x00
+03a0:	93e0 018a	sts   0x018a, r30
+03a4:	93f0 018b	sts   0x018b, r31
+03a8:	fc20     	sbrc  r2, 0
+03aa:	c02b     	rjmp  0x0402
+03ac:	d236     	rcall 0x081a
+03ae:	97f2     	sbiw  r30, 0x32
+03b0:	d239     	rcall 0x0824
+03b2:	f420     	brcc  0x03bc
+03b4:	d232     	rcall 0x081a
+03b6:	96f2     	adiw  r30, 0x32
+03b8:	d239     	rcall 0x082c
+03ba:	f008     	brcs  0x03be
+03bc:	c009     	rjmp  0x03d0
+03be:	d21b     	rcall 0x07f6
+03c0:	d22c     	rcall 0x081a
+03c2:	1bea     	sub   r30, r26
+03c4:	0bfb     	sbc   r31, r27
+03c6:	9632     	adiw  r30, 0x02
+03c8:	d265     	rcall 0x0894
+03ca:	d320     	rcall 0x0a0c
+03cc:	d272     	rcall 0x08b2
+03ce:	c008     	rjmp  0x03e0
+03d0:	d224     	rcall 0x081a
+03d2:	d22c     	rcall 0x082c
+03d4:	f420     	brcc  0x03de
+03d6:	efef     	ldi   r30, 0xff
+03d8:	e0f3     	ldi   r31, 0x03
+03da:	d26b     	rcall 0x08b2
+03dc:	c001     	rjmp  0x03e0
+03de:	d26e     	rcall 0x08bc
+03e0:	91a0 0183	lds   r26, 0x0183
+03e4:	23aa     	and   r26, r26
+03e6:	f40a     	brpl  0x03ea
+03e8:	d269     	rcall 0x08bc
+03ea:	91a0 0182	lds   r26, 0x0182
+03ee:	91b0 0183	lds   r27, 0x0183
+03f2:	30a0     	cpi   r26, 0x00
+03f4:	e0e4     	ldi   r30, 0x04
+03f6:	07be     	cpc   r27, r30
+03f8:	f01c     	brlt  0x0400
+03fa:	efef     	ldi   r30, 0xff
+03fc:	e0f3     	ldi   r31, 0x03
+03fe:	d259     	rcall 0x08b2
+0400:	c001     	rjmp  0x0404
+0402:	d25c     	rcall 0x08bc
+0404:	d261     	rcall 0x08c8
+0406:	93e0 018e	sts   0x018e, r30
+040a:	93f0 018f	sts   0x018f, r31
+040e:	d069     	rcall 0x04e2
+0410:	e0e1     	ldi   r30, 0x01
+0412:	e0f0     	ldi   r31, 0x00
+0414:	d25e     	rcall 0x08d2
+0416:	f461     	brne  0x0430
+0418:	e8a4     	ldi   r26, 0x84
+041a:	e0b1     	ldi   r27, 0x01
+041c:	d22a     	rcall 0x0872
+041e:	d25c     	rcall 0x08d8
+0420:	3ea1     	cpi   r26, 0xe1
+0422:	e0e1     	ldi   r30, 0x01
+0424:	07be     	cpc   r27, r30
+0426:	f01c     	brlt  0x042e
+0428:	eee0     	ldi   r30, 0xe0
+042a:	e0f1     	ldi   r31, 0x01
+042c:	d25a     	rcall 0x08e2
+042e:	d25e     	rcall 0x08ec
+0430:	e0e2     	ldi   r30, 0x02
+0432:	e0f0     	ldi   r31, 0x00
+0434:	d24e     	rcall 0x08d2
+0436:	f449     	brne  0x044a
+0438:	e8a4     	ldi   r26, 0x84
+043a:	e0b1     	ldi   r27, 0x01
+043c:	d1fb     	rcall 0x0834
+043e:	d24c     	rcall 0x08d8
+0440:	97d2     	sbiw  r26, 0x32
+0442:	f414     	brge  0x0448
+0444:	d256     	rcall 0x08f2
+0446:	d24d     	rcall 0x08e2
+0448:	d251     	rcall 0x08ec
+044a:	e0e3     	ldi   r30, 0x03
+044c:	e0f0     	ldi   r31, 0x00
+044e:	d241     	rcall 0x08d2
+0450:	f489     	brne  0x0474
+0452:	e7a6     	ldi   r26, 0x76
+0454:	e0b1     	ldi   r27, 0x01
+0456:	d20d     	rcall 0x0872
+0458:	d24f     	rcall 0x08f8
+045a:	9713     	sbiw  r26, 0x03
+045c:	f028     	brcs  0x0468
+045e:	e0e0     	ldi   r30, 0x00
+0460:	93e0 0176	sts   0x0176, r30
+0464:	93e0 0177	sts   0x0177, r30
+0468:	d24c     	rcall 0x0902
+046a:	0fae     	add   r26, r30
+046c:	1fbf     	adc   r27, r31
+046e:	d2e9     	rcall 0x0a42
+0470:	d238     	rcall 0x08e2
+0472:	d23c     	rcall 0x08ec
+0474:	e0e4     	ldi   r30, 0x04
+0476:	e0f0     	ldi   r31, 0x00
+0478:	d22c     	rcall 0x08d2
+047a:	f4a9     	brne  0x04a6
+047c:	94f8     	sei
+047e:	d23c     	rcall 0x08f8
+0480:	0faa     	add   r26, r26
+0482:	1fbb     	adc   r27, r27
+0484:	5fae     	subi  r26, 0xfe
+0486:	4fbf     	sbci  r27, 0xff
+0488:	d1da     	rcall 0x083e
+048a:	d301     	rcall 0x0a8e
+048c:	d23a     	rcall 0x0902
+048e:	0fea     	add   r30, r26
+0490:	1ffb     	adc   r31, r27
+0492:	d222     	rcall 0x08d8
+0494:	83a0     	std   Z+0, r26
+0496:	83b1     	std   Z+1, r27
+0498:	9478     	sei
+049a:	d23c     	rcall 0x0914
+049c:	d23b     	rcall 0x0914
+049e:	d0d7     	rcall 0x064e
+04a0:	9468     	set
+04a2:	f825     	bld   r2, 5
+04a4:	d223     	rcall 0x08ec
+04a6:	91a0 018c	lds   r26, 0x018c
+04aa:	91b0 018d	lds   r27, 0x018d
+04ae:	d456     	rcall 0x0d5c
+04b0:	f024     	brlt  0x04ba
+04b2:	fc23     	sbrc  r2, 3
+04b4:	c002     	rjmp  0x04ba
+04b6:	fe20     	sbrs  r2, 0
+04b8:	c001     	rjmp  0x04bc
+04ba:	c004     	rjmp  0x04c4
+04bc:	d0c8     	rcall 0x064e
+04be:	d0c7     	rcall 0x064e
+04c0:	9468     	set
+04c2:	f823     	bld   r2, 3
+04c4:	d22c     	rcall 0x091e
+04c6:	3aa0     	cpi   r26, 0xa0
+04c8:	e0e0     	ldi   r30, 0x00
+04ca:	07be     	cpc   r27, r30
+04cc:	f408     	brcc  0x04d0
+04ce:	d1f6     	rcall 0x08bc
+04d0:	d1fb     	rcall 0x08c8
+04d2:	d28d     	rcall 0x09ee
+04d4:	e0f0     	ldi   r31, 0x00
+04d6:	bdeb     	out   OCR1AH, r30
+04d8:	91e0 0182	lds   r30, 0x0182
+04dc:	bdea     	out   OCR1AL, r30
+04de:	ceed     	rjmp  0x02ba
+04e0:	cfff     	rjmp  0x04e0
+04e2:	fe20     	sbrs  r2, 0
+04e4:	c002     	rjmp  0x04ea
+04e6:	d223     	rcall 0x092e
+04e8:	f409     	brne  0x04ec
+04ea:	c00c     	rjmp  0x0504
+04ec:	98ab     	cbi  PORTC, 3
+04ee:	98a5     	cbi  DDRC, 5
+04f0:	d223     	rcall 0x0938
+04f2:	d215     	rcall 0x091e
+04f4:	3aa1     	cpi   r26, 0xa1
+04f6:	e0e0     	ldi   r30, 0x00
+04f8:	07be     	cpc   r27, r30
+04fa:	f020     	brcs  0x0504
+04fc:	94e8     	set
+04fe:	f821     	bld   r2, 1
+0500:	f820     	bld   r2, 0
+0502:	d21e     	rcall 0x0940
+0504:	d214     	rcall 0x092e
+0506:	f411     	brne  0x050c
+0508:	fe20     	sbrs  r2, 0
+050a:	c001     	rjmp  0x050e
+050c:	c01a     	rjmp  0x0542
+050e:	e0e0     	ldi   r30, 0x00
+0510:	93e0 0166	sts   0x0166, r30
+0514:	93e0 0167	sts   0x0167, r30
+0518:	d20a     	rcall 0x092e
+051a:	f431     	brne  0x0528
+051c:	91a0 0166	lds   r26, 0x0166
+0520:	91b0 0167	lds   r27, 0x0167
+0524:	971a     	sbiw  r26, 0x0a
+0526:	f008     	brcs  0x052a
+0528:	c008     	rjmp  0x053a
+052a:	e6e4     	ldi   r30, 0x64
+052c:	e0f0     	ldi   r31, 0x00
+052e:	d211     	rcall 0x0952
+0530:	e6a6     	ldi   r26, 0x66
+0532:	e0b1     	ldi   r27, 0x01
+0534:	d19e     	rcall 0x0872
+0536:	9731     	sbiw  r30, 0x01
+0538:	cfef     	rjmp  0x0518
+053a:	99b4     	sbic  PINB, 4
+053c:	c002     	rjmp  0x0542
+053e:	9468     	set
+0540:	f820     	bld   r2, 0
+0542:	d20a     	rcall 0x0958
+0544:	f031     	breq  0x0552
+0546:	91e0 017a	lds   r30, 0x017a
+054a:	91f0 017b	lds   r31, 0x017b
+054e:	9730     	sbiw  r30, 0x00
+0550:	f409     	brne  0x0554
+0552:	c005     	rjmp  0x055e
+0554:	e0e0     	ldi   r30, 0x00
+0556:	93e0 017a	sts   0x017a, r30
+055a:	93e0 017b	sts   0x017b, r30
+055e:	d201     	rcall 0x0962
+0560:	f031     	breq  0x056e
+0562:	91e0 017c	lds   r30, 0x017c
+0566:	91f0 017d	lds   r31, 0x017d
+056a:	9730     	sbiw  r30, 0x00
+056c:	f409     	brne  0x0570
+056e:	c006     	rjmp  0x057c
+0570:	e7ec     	ldi   r30, 0x7c
+0572:	e0f1     	ldi   r31, 0x01
+0574:	e0a0     	ldi   r26, 0x00
+0576:	e0b0     	ldi   r27, 0x00
+0578:	83a0     	std   Z+0, r26
+057a:	83b1     	std   Z+1, r27
+057c:	d1f7     	rcall 0x096c
+057e:	f011     	breq  0x0584
+0580:	fc30     	sbrc  r3, 0
+0582:	c001     	rjmp  0x0586
+0584:	c002     	rjmp  0x058a
+0586:	94e8     	set
+0588:	f830     	bld   r3, 0
+058a:	99b5     	sbic  PINB, 5
+058c:	c019     	rjmp  0x05c0
+058e:	d1d4     	rcall 0x0938
+0590:	91a0 017a	lds   r26, 0x017a
+0594:	91b0 017b	lds   r27, 0x017b
+0598:	9715     	sbiw  r26, 0x05
+059a:	f458     	brcc  0x05b2
+059c:	d1ec     	rcall 0x0976
+059e:	d1dc     	rcall 0x0958
+05a0:	f411     	brne  0x05a6
+05a2:	d1ed     	rcall 0x097e
+05a4:	f008     	brcs  0x05a8
+05a6:	c005     	rjmp  0x05b2
+05a8:	e2e8     	ldi   r30, 0x28
+05aa:	e0f0     	ldi   r31, 0x00
+05ac:	d1d2     	rcall 0x0952
+05ae:	d1ec     	rcall 0x0988
+05b0:	cff6     	rjmp  0x059e
+05b2:	e7aa     	ldi   r26, 0x7a
+05b4:	e0b1     	ldi   r27, 0x01
+05b6:	d15d     	rcall 0x0872
+05b8:	9731     	sbiw  r30, 0x01
+05ba:	e0e1     	ldi   r30, 0x01
+05bc:	e0f0     	ldi   r31, 0x00
+05be:	015f     	movw  r10, r30
+05c0:	d1d0     	rcall 0x0962
+05c2:	f419     	brne  0x05ca
+05c4:	2c0a     	mov   r0, r10
+05c6:	280b     	or    r0, r11
+05c8:	f009     	breq  0x05cc
+05ca:	c018     	rjmp  0x05fc
+05cc:	d1b5     	rcall 0x0938
+05ce:	91a0 017c	lds   r26, 0x017c
+05d2:	91b0 017d	lds   r27, 0x017d
+05d6:	9715     	sbiw  r26, 0x05
+05d8:	f458     	brcc  0x05f0
+05da:	d1cd     	rcall 0x0976
+05dc:	d1c2     	rcall 0x0962
+05de:	f411     	brne  0x05e4
+05e0:	d1ce     	rcall 0x097e
+05e2:	f008     	brcs  0x05e6
+05e4:	c005     	rjmp  0x05f0
+05e6:	e2e8     	ldi   r30, 0x28
+05e8:	e0f0     	ldi   r31, 0x00
+05ea:	d1b3     	rcall 0x0952
+05ec:	d1cd     	rcall 0x0988
+05ee:	cff6     	rjmp  0x05dc
+05f0:	e7ac     	ldi   r26, 0x7c
+05f2:	e0b1     	ldi   r27, 0x01
+05f4:	d13e     	rcall 0x0872
+05f6:	e0e2     	ldi   r30, 0x02
+05f8:	e0f0     	ldi   r31, 0x00
+05fa:	015f     	movw  r10, r30
+05fc:	d1b7     	rcall 0x096c
+05fe:	f429     	brne  0x060a
+0600:	fc30     	sbrc  r3, 0
+0602:	c003     	rjmp  0x060a
+0604:	2c0a     	mov   r0, r10
+0606:	280b     	or    r0, r11
+0608:	f009     	breq  0x060c
+060a:	c01a     	rjmp  0x0640
+060c:	d1b4     	rcall 0x0976
+060e:	d1ae     	rcall 0x096c
+0610:	f429     	brne  0x061c
+0612:	e2e8     	ldi   r30, 0x28
+0614:	e0f0     	ldi   r31, 0x00
+0616:	16ce     	cp    r12, r30
+0618:	06df     	cpc   r13, r31
+061a:	f008     	brcs  0x061e
+061c:	c006     	rjmp  0x062a
+061e:	d18c     	rcall 0x0938
+0620:	9468     	set
+0622:	f822     	bld   r2, 2
+0624:	d1b5     	rcall 0x0990
+0626:	d1b0     	rcall 0x0988
+0628:	cff2     	rjmp  0x060e
+062a:	999a     	sbic  PINC, 2
+062c:	c006     	rjmp  0x063a
+062e:	e0e4     	ldi   r30, 0x04
+0630:	e0f0     	ldi   r31, 0x00
+0632:	015f     	movw  r10, r30
+0634:	9468     	set
+0636:	f830     	bld   r3, 0
+0638:	c003     	rjmp  0x0640
+063a:	e0e3     	ldi   r30, 0x03
+063c:	e0f0     	ldi   r31, 0x00
+063e:	015f     	movw  r10, r30
+0640:	2c0a     	mov   r0, r10
+0642:	280b     	or    r0, r11
+0644:	f019     	breq  0x064c
+0646:	d1a4     	rcall 0x0990
+0648:	9468     	set
+064a:	f822     	bld   r2, 2
+064c:	9508     	ret
+064e:	9ac3     	sbi  PORTB, 3
+0650:	e5e0     	ldi   r30, 0x50
+0652:	e0f0     	ldi   r31, 0x00
+0654:	d17e     	rcall 0x0952
+0656:	98c3     	cbi  PORTB, 3
+0658:	9508     	ret
+065a:	91e0 0170	lds   r30, 0x0170
+065e:	91f0 0171	lds   r31, 0x0171
+0662:	d19d     	rcall 0x099e
+0664:	e0e0     	ldi   r30, 0x00
+0666:	e0f0     	ldi   r31, 0x00
+0668:	93e0 0162	sts   0x0162, r30
+066c:	93f0 0163	sts   0x0163, r31
+0670:	d19b     	rcall 0x09a8
+0672:	d19f     	rcall 0x09b2
+0674:	36a4     	cpi   r26, 0x64
+0676:	e0e0     	ldi   r30, 0x00
+0678:	07be     	cpc   r27, r30
+067a:	f040     	brcs  0x068c
+067c:	d19f     	rcall 0x09bc
+067e:	56e4     	subi  r30, 0x64
+0680:	40f0     	sbci  r31, 0x00
+0682:	d18d     	rcall 0x099e
+0684:	e6a0     	ldi   r26, 0x60
+0686:	e0b1     	ldi   r27, 0x01
+0688:	d0f4     	rcall 0x0872
+068a:	cff3     	rjmp  0x0672
+068c:	d192     	rcall 0x09b2
+068e:	971a     	sbiw  r26, 0x0a
+0690:	f038     	brcs  0x06a0
+0692:	d194     	rcall 0x09bc
+0694:	973a     	sbiw  r30, 0x0a
+0696:	d183     	rcall 0x099e
+0698:	e6a2     	ldi   r26, 0x62
+069a:	e0b1     	ldi   r27, 0x01
+069c:	d0ea     	rcall 0x0872
+069e:	cff6     	rjmp  0x068c
+06a0:	d18d     	rcall 0x09bc
+06a2:	93e0 0164	sts   0x0164, r30
+06a6:	93f0 0165	sts   0x0165, r31
+06aa:	91e0 0160	lds   r30, 0x0160
+06ae:	91f0 0161	lds   r31, 0x0161
+06b2:	9730     	sbiw  r30, 0x00
+06b4:	f479     	brne  0x06d4
+06b6:	91e0 0162	lds   r30, 0x0162
+06ba:	91f0 0163	lds   r31, 0x0163
+06be:	9730     	sbiw  r30, 0x00
+06c0:	f431     	brne  0x06ce
+06c2:	e6e2     	ldi   r30, 0x62
+06c4:	e0f1     	ldi   r31, 0x01
+06c6:	e0aa     	ldi   r26, 0x0a
+06c8:	e0b0     	ldi   r27, 0x00
+06ca:	83a0     	std   Z+0, r26
+06cc:	83b1     	std   Z+1, r27
+06ce:	e0ea     	ldi   r30, 0x0a
+06d0:	e0f0     	ldi   r31, 0x00
+06d2:	d16a     	rcall 0x09a8
+06d4:	9508     	ret
+06d6:	98c7     	cbi  PORTB, 7
+06d8:	98c6     	cbi  PORTB, 6
+06da:	98c0     	cbi  PORTB, 0
+06dc:	fe21     	sbrs  r2, 1
+06de:	c002     	rjmp  0x06e4
+06e0:	fe22     	sbrs  r2, 2
+06e2:	c001     	rjmp  0x06e6
+06e4:	c003     	rjmp  0x06ec
+06e6:	e3e1     	ldi   r30, 0x31
+06e8:	e0f0     	ldi   r31, 0x00
+06ea:	c00f     	rjmp  0x070a
+06ec:	fe24     	sbrs  r2, 4
+06ee:	c003     	rjmp  0x06f6
+06f0:	e3e0     	ldi   r30, 0x30
+06f2:	e0f0     	ldi   r31, 0x00
+06f4:	c00a     	rjmp  0x070a
+06f6:	01f4     	movw  r30, r8
+06f8:	e6a0     	ldi   r26, 0x60
+06fa:	e0b1     	ldi   r27, 0x01
+06fc:	0fee     	add   r30, r30
+06fe:	1fff     	adc   r31, r31
+0700:	0fae     	add   r26, r30
+0702:	1fbf     	adc   r27, r31
+0704:	d19e     	rcall 0x0a42
+0706:	5dea     	subi  r30, 0xda
+0708:	4fff     	sbci  r31, 0xff
+070a:	9004     	lpm   r0, Z
+070c:	ba02     	out   PORTD, r0
+070e:	01f4     	movw  r30, r8
+0710:	9730     	sbiw  r30, 0x00
+0712:	f411     	brne  0x0718
+0714:	9ac6     	sbi  PORTB, 6
+0716:	c00d     	rjmp  0x0732
+0718:	30e1     	cpi   r30, 0x01
+071a:	e0a0     	ldi   r26, 0x00
+071c:	07fa     	cpc   r31, r26
+071e:	f411     	brne  0x0724
+0720:	9ac7     	sbi  PORTB, 7
+0722:	c007     	rjmp  0x0732
+0724:	30e2     	cpi   r30, 0x02
+0726:	e0a0     	ldi   r26, 0x00
+0728:	07fa     	cpc   r31, r26
+072a:	f419     	brne  0x0732
+072c:	fc26     	sbrc  r2, 6
+072e:	9894     	cbi  PORTD, 4
+0730:	9ac0     	sbi  PORTB, 0
+0732:	9508     	ret
+0734:	e3e6     	ldi   r30, 0x36
+0736:	bbe8     	out   PORTB, r30
+0738:	eceb     	ldi   r30, 0xcb
+073a:	bbe7     	out   DDRB, r30
+073c:	e5e6     	ldi   r30, 0x56
+073e:	bbe5     	out   PORTC, r30
+0740:	e0e8     	ldi   r30, 0x08
+0742:	bbe4     	out   DDRC, r30
+0744:	efef     	ldi   r30, 0xff
+0746:	bbe2     	out   PORTD, r30
+0748:	bbe1     	out   DDRD, r30
+074a:	e0e5     	ldi   r30, 0x05
+074c:	bfe3     	out   TCCR0, r30
+074e:	ebe2     	ldi   r30, 0xb2
+0750:	bfe2     	out   TCNT0, r30
+0752:	ece3     	ldi   r30, 0xc3
+0754:	bdef     	out   TCCR1A, r30
+0756:	e0e4     	ldi   r30, 0x04
+0758:	bdee     	out   TCCR1B, r30
+075a:	e0e0     	ldi   r30, 0x00
+075c:	bded     	out   TCNT1H, r30
+075e:	bdec     	out   TCNT1L, r30
+0760:	bde7     	out   ICR1H, r30
+0762:	bde6     	out   ICR1L, r30
+0764:	bdeb     	out   OCR1AH, r30
+0766:	bdea     	out   OCR1AL, r30
+0768:	bde9     	out   OCR1BH, r30
+076a:	bde8     	out   OCR1BL, r30
+076c:	bde2     	out   ASSR, r30
+076e:	e0e4     	ldi   r30, 0x04
+0770:	bde5     	out   TCCR2, r30
+0772:	e8e3     	ldi   r30, 0x83
+0774:	bde4     	out   TCNT2, r30
+0776:	e0e0     	ldi   r30, 0x00
+0778:	bde3     	out   OCR2, r30
+077a:	bfe5     	out   MCUCR, r30
+077c:	e4e1     	ldi   r30, 0x41
+077e:	bfe9     	out   TIMSK, r30
+0780:	e8e0     	ldi   r30, 0x80
+0782:	b9e8     	out   ACSR, r30
+0784:	e0e0     	ldi   r30, 0x00
+0786:	bfe0     	out   SFIOR, r30
+0788:	b9e7     	out   ADMUX, r30
+078a:	e8e6     	ldi   r30, 0x86
+078c:	b9e6     	out   ADCSRA, r30
+078e:	d06e     	rcall 0x086c
+0790:	d16e     	rcall 0x0a6e
+0792:	3ee1     	cpi   r30, 0xe1
+0794:	e0a1     	ldi   r26, 0x01
+0796:	07fa     	cpc   r31, r26
+0798:	f098     	brcs  0x07c0
+079a:	d068     	rcall 0x086c
+079c:	ece8     	ldi   r30, 0xc8
+079e:	e0f0     	ldi   r31, 0x00
+07a0:	d176     	rcall 0x0a8e
+07a2:	e0a2     	ldi   r26, 0x02
+07a4:	e0b0     	ldi   r27, 0x00
+07a6:	efea     	ldi   r30, 0xfa
+07a8:	e0f0     	ldi   r31, 0x00
+07aa:	d171     	rcall 0x0a8e
+07ac:	e0a4     	ldi   r26, 0x04
+07ae:	e0b0     	ldi   r27, 0x00
+07b0:	e2ec     	ldi   r30, 0x2c
+07b2:	e0f1     	ldi   r31, 0x01
+07b4:	d16c     	rcall 0x0a8e
+07b6:	e0a6     	ldi   r26, 0x06
+07b8:	e0b0     	ldi   r27, 0x00
+07ba:	e5ee     	ldi   r30, 0x5e
+07bc:	e0f1     	ldi   r31, 0x01
+07be:	d167     	rcall 0x0a8e
+07c0:	e0a2     	ldi   r26, 0x02
+07c2:	e0b0     	ldi   r27, 0x00
+07c4:	d154     	rcall 0x0a6e
+07c6:	93e0 0190	sts   0x0190, r30
+07ca:	93f0 0191	sts   0x0191, r31
+07ce:	e0a4     	ldi   r26, 0x04
+07d0:	e0b0     	ldi   r27, 0x00
+07d2:	d14d     	rcall 0x0a6e
+07d4:	93e0 0192	sts   0x0192, r30
+07d8:	93f0 0193	sts   0x0193, r31
+07dc:	e0a6     	ldi   r26, 0x06
+07de:	e0b0     	ldi   r27, 0x00
+07e0:	d146     	rcall 0x0a6e
+07e2:	93e0 0194	sts   0x0194, r30
+07e6:	93f0 0195	sts   0x0195, r31
+07ea:	d040     	rcall 0x086c
+07ec:	d140     	rcall 0x0a6e
+07ee:	d079     	rcall 0x08e2
+07f0:	d0a7     	rcall 0x0940
+07f2:	9478     	sei
+07f4:	9508     	ret
+07f6:	91a0 016e	lds   r26, 0x016e
+07fa:	91b0 016f	lds   r27, 0x016f
+07fe:	9508     	ret
+0800:	91ed     	ld    r30, X+
+0802:	91fd     	ld    r31, X+
+0804:	9508     	ret
+0806:	9631     	adiw  r30, 0x01
+0808:	93fe     	st    -X, r31
+080a:	93ee     	st    -X, r30
+080c:	9508     	ret
+080e:	e0e0     	ldi   r30, 0x00
+0810:	93e0 0180	sts   0x0180, r30
+0814:	93e0 0181	sts   0x0181, r30
+0818:	9508     	ret
+081a:	91e0 0186	lds   r30, 0x0186
+081e:	91f0 0187	lds   r31, 0x0187
+0822:	9508     	ret
+0824:	dfe8     	rcall 0x07f6
+0826:	17ea     	cp    r30, r26
+0828:	07fb     	cpc   r31, r27
+082a:	9508     	ret
+082c:	dfe4     	rcall 0x07f6
+082e:	17ae     	cp    r26, r30
+0830:	07bf     	cpc   r27, r31
+0832:	9508     	ret
+0834:	dfe5     	rcall 0x0800
+0836:	9731     	sbiw  r30, 0x01
+0838:	93fe     	st    -X, r31
+083a:	93ee     	st    -X, r30
+083c:	9508     	ret
+083e:	91e0 0184	lds   r30, 0x0184
+0842:	91f0 0185	lds   r31, 0x0185
+0846:	9508     	ret
+0848:	91a0 0170	lds   r26, 0x0170
+084c:	91b0 0171	lds   r27, 0x0171
+0850:	17ea     	cp    r30, r26
+0852:	07fb     	cpc   r31, r27
+0854:	9508     	ret
+0856:	93e0 0170	sts   0x0170, r30
+085a:	93f0 0171	sts   0x0171, r31
+085e:	cefd     	rjmp  0x065a
+0860:	e0e0     	ldi   r30, 0x00
+0862:	93e0 0178	sts   0x0178, r30
+0866:	93e0 0179	sts   0x0179, r30
+086a:	9508     	ret
+086c:	e0a0     	ldi   r26, 0x00
+086e:	e0b0     	ldi   r27, 0x00
+0870:	9508     	ret
+0872:	dfc6     	rcall 0x0800
+0874:	cfc8     	rjmp  0x0806
+0876:	91e0 0172	lds   r30, 0x0172
+087a:	91f0 0173	lds   r31, 0x0173
+087e:	9508     	ret
+0880:	91a0 017e	lds   r26, 0x017e
+0884:	91b0 017f	lds   r27, 0x017f
+0888:	9508     	ret
+088a:	91e0 018e	lds   r30, 0x018e
+088e:	91f0 018f	lds   r31, 0x018f
+0892:	9508     	ret
+0894:	91a0 0188	lds   r26, 0x0188
+0898:	91b0 0189	lds   r27, 0x0189
+089c:	9508     	ret
+089e:	93e0 0188	sts   0x0188, r30
+08a2:	93f0 0189	sts   0x0189, r31
+08a6:	9508     	ret
+08a8:	91a0 016c	lds   r26, 0x016c
+08ac:	91b0 016d	lds   r27, 0x016d
+08b0:	9508     	ret
+08b2:	93e0 0182	sts   0x0182, r30
+08b6:	93f0 0183	sts   0x0183, r31
+08ba:	9508     	ret
+08bc:	e0e0     	ldi   r30, 0x00
+08be:	93e0 0182	sts   0x0182, r30
+08c2:	93e0 0183	sts   0x0183, r30
+08c6:	9508     	ret
+08c8:	91e0 0182	lds   r30, 0x0182
+08cc:	91f0 0183	lds   r31, 0x0183
+08d0:	9508     	ret
+08d2:	15ea     	cp    r30, r10
+08d4:	05fb     	cpc   r31, r11
+08d6:	9508     	ret
+08d8:	91a0 0184	lds   r26, 0x0184
+08dc:	91b0 0185	lds   r27, 0x0185
+08e0:	9508     	ret
+08e2:	93e0 0184	sts   0x0184, r30
+08e6:	93f0 0185	sts   0x0185, r31
+08ea:	9508     	ret
+08ec:	24aa     	eor   r10, r10
+08ee:	24bb     	eor   r11, r11
+08f0:	9508     	ret
+08f2:	e3e2     	ldi   r30, 0x32
+08f4:	e0f0     	ldi   r31, 0x00
+08f6:	9508     	ret
+08f8:	91a0 0176	lds   r26, 0x0176
+08fc:	91b0 0177	lds   r27, 0x0177
+0900:	9508     	ret
+0902:	91e0 0176	lds   r30, 0x0176
+0906:	91f0 0177	lds   r31, 0x0177
+090a:	e9a0     	ldi   r26, 0x90
+090c:	e0b1     	ldi   r27, 0x01
+090e:	0fee     	add   r30, r30
+0910:	1fff     	adc   r31, r31
+0912:	9508     	ret
+0914:	de9c     	rcall 0x064e
+0916:	dfed     	rcall 0x08f2
+0918:	93fa     	st    -Y, r31
+091a:	93ea     	st    -Y, r30
+091c:	c054     	rjmp  0x09c6
+091e:	e0e5     	ldi   r30, 0x05
+0920:	93ea     	st    -Y, r30
+0922:	dbd6     	rcall 0x00d0
+0924:	93e0 016c	sts   0x016c, r30
+0928:	93f0 016d	sts   0x016d, r31
+092c:	cfbd     	rjmp  0x08a8
+092e:	e0a0     	ldi   r26, 0x00
+0930:	99b4     	sbic  PINB, 4
+0932:	e0a1     	ldi   r26, 0x01
+0934:	30a0     	cpi   r26, 0x00
+0936:	9508     	ret
+0938:	dfdc     	rcall 0x08f2
+093a:	93fa     	st    -Y, r31
+093c:	93ea     	st    -Y, r30
+093e:	c043     	rjmp  0x09c6
+0940:	e6e8     	ldi   r30, 0x68
+0942:	e0f1     	ldi   r31, 0x01
+0944:	93e0 0174	sts   0x0174, r30
+0948:	93f0 0175	sts   0x0175, r31
+094c:	9468     	set
+094e:	f822     	bld   r2, 2
+0950:	9508     	ret
+0952:	93fa     	st    -Y, r31
+0954:	93ea     	st    -Y, r30
+0956:	c037     	rjmp  0x09c6
+0958:	e0a0     	ldi   r26, 0x00
+095a:	99b5     	sbic  PINB, 5
+095c:	e0a1     	ldi   r26, 0x01
+095e:	30a0     	cpi   r26, 0x00
+0960:	9508     	ret
+0962:	e0a0     	ldi   r26, 0x00
+0964:	99b2     	sbic  PINB, 2
+0966:	e0a1     	ldi   r26, 0x01
+0968:	30a0     	cpi   r26, 0x00
+096a:	9508     	ret
+096c:	e0a0     	ldi   r26, 0x00
+096e:	999a     	sbic  PINC, 2
+0970:	e0a1     	ldi   r26, 0x01
+0972:	30a0     	cpi   r26, 0x00
+0974:	9508     	ret
+0976:	de6b     	rcall 0x064e
+0978:	24cc     	eor   r12, r12
+097a:	24dd     	eor   r13, r13
+097c:	9508     	ret
+097e:	e0e5     	ldi   r30, 0x05
+0980:	e0f0     	ldi   r31, 0x00
+0982:	16ce     	cp    r12, r30
+0984:	06df     	cpc   r13, r31
+0986:	9508     	ret
+0988:	01f6     	movw  r30, r12
+098a:	9631     	adiw  r30, 0x01
+098c:	016f     	movw  r12, r30
+098e:	9508     	ret
+0990:	e3e8     	ldi   r30, 0x38
+0992:	e0f4     	ldi   r31, 0x04
+0994:	93e0 0174	sts   0x0174, r30
+0998:	93f0 0175	sts   0x0175, r31
+099c:	9508     	ret
+099e:	93e0 0168	sts   0x0168, r30
+09a2:	93f0 0169	sts   0x0169, r31
+09a6:	9508     	ret
+09a8:	93e0 0160	sts   0x0160, r30
+09ac:	93f0 0161	sts   0x0161, r31
+09b0:	9508     	ret
+09b2:	91a0 0168	lds   r26, 0x0168
+09b6:	91b0 0169	lds   r27, 0x0169
+09ba:	9508     	ret
+09bc:	91e0 0168	lds   r30, 0x0168
+09c0:	91f0 0169	lds   r31, 0x0169
+09c4:	9508     	ret
+09c6:	91e9     	ld    r30, Y+
+09c8:	91f9     	ld    r31, Y+
+09ca:	9630     	adiw  r30, 0x00
+09cc:	f039     	breq  0x09dc
+09ce:	ed80     	ldi   r24, 0xd0
+09d0:	e097     	ldi   r25, 0x07
+09d2:	9701     	sbiw  r24, 0x01
+09d4:	f7f1     	brne  0x09d2
+09d6:	95a8     	wdr
+09d8:	9731     	sbiw  r30, 0x01
+09da:	f7c9     	brne  0x09ce
+09dc:	9508     	ret
+09de:	95f0     	com   r31
+09e0:	9560     	com   r22
+09e2:	9570     	com   r23
+09e4:	95e1     	neg   r30
+09e6:	4fff     	sbci  r31, 0xff
+09e8:	4f6f     	sbci  r22, 0xff
+09ea:	4f7f     	sbci  r23, 0xff
+09ec:	9508     	ret
+09ee:	2fef     	mov   r30, r31
+09f0:	27ff     	eor   r31, r31
+09f2:	fde7     	sbrc  r30, 7
+09f4:	efff     	ldi   r31, 0xff
+09f6:	9508     	ret
+09f8:	2f6f     	mov   r22, r31
+09fa:	0f66     	add   r22, r22
+09fc:	0b66     	sbc   r22, r22
+09fe:	2f76     	mov   r23, r22
+0a00:	9508     	ret
+0a02:	2f8b     	mov   r24, r27
+0a04:	0f88     	add   r24, r24
+0a06:	0b88     	sbc   r24, r24
+0a08:	2f98     	mov   r25, r24
+0a0a:	9508     	ret
+0a0c:	9ffa     	mul   r31, r26
+0a0e:	2df0     	mov   r31, r0
+0a10:	9feb     	mul   r30, r27
+0a12:	0df0     	add   r31, r0
+0a14:	9fea     	mul   r30, r26
+0a16:	2de0     	mov   r30, r0
+0a18:	0df1     	add   r31, r1
+0a1a:	9508     	ret
+0a1c:	2400     	eor   r0, r0
+0a1e:	2411     	eor   r1, r1
+0a20:	e190     	ldi   r25, 0x10
+0a22:	0faa     	add   r26, r26
+0a24:	1fbb     	adc   r27, r27
+0a26:	1c00     	adc   r0, r0
+0a28:	1c11     	adc   r1, r1
+0a2a:	1a0e     	sub   r0, r30
+0a2c:	0a1f     	sbc   r1, r31
+0a2e:	f418     	brcc  0x0a36
+0a30:	0e0e     	add   r0, r30
+0a32:	1e1f     	adc   r1, r31
+0a34:	c001     	rjmp  0x0a38
+0a36:	60a1     	ori   r26, 0x01
+0a38:	959a     	dec   r25
+0a3a:	f799     	brne  0x0a22
+0a3c:	01fd     	movw  r30, r26
+0a3e:	01d0     	movw  r26, r0
+0a40:	9508     	ret
+0a42:	91ed     	ld    r30, X+
+0a44:	91fc     	ld    r31, X
+0a46:	9711     	sbiw  r26, 0x01
+0a48:	9508     	ret
+0a4a:	9468     	set
+0a4c:	c001     	rjmp  0x0a50
+0a4e:	94e8     	set
+0a50:	d001     	rcall 0x0a54
+0a52:	d09d     	rcall 0x0b8e
+0a54:	2e18     	mov   r1, r24
+0a56:	2f86     	mov   r24, r22
+0a58:	2d61     	mov   r22, r1
+0a5a:	2e19     	mov   r1, r25
+0a5c:	2f97     	mov   r25, r23
+0a5e:	2d71     	mov   r23, r1
+0a60:	2e1b     	mov   r1, r27
+0a62:	2fbf     	mov   r27, r31
+0a64:	2df1     	mov   r31, r1
+0a66:	2e1a     	mov   r1, r26
+0a68:	2fae     	mov   r26, r30
+0a6a:	2de1     	mov   r30, r1
+0a6c:	9508     	ret
+0a6e:	9611     	adiw  r26, 0x01
+0a70:	d002     	rcall 0x0a76
+0a72:	2ffe     	mov   r31, r30
+0a74:	9711     	sbiw  r26, 0x01
+0a76:	99e1     	sbic  EECR, 1
+0a78:	cffe     	rjmp  0x0a76
+0a7a:	93ff     	push  r31
+0a7c:	b7ff     	in    r31, SREG
+0a7e:	94f8     	sei
+0a80:	bbae     	out   EEARL, r26
+0a82:	bbbf     	out   EEARH, r27
+0a84:	9ae0     	sbi  EECR, 0
+0a86:	b3ed     	in    r30, EEDR
+0a88:	bfff     	out   SREG, r31
+0a8a:	91ff     	pop   r31
+0a8c:	9508     	ret
+0a8e:	d007     	rcall 0x0a9e
+0a90:	9611     	adiw  r26, 0x01
+0a92:	93ef     	push  r30
+0a94:	2fef     	mov   r30, r31
+0a96:	d003     	rcall 0x0a9e
+0a98:	91ef     	pop   r30
+0a9a:	9711     	sbiw  r26, 0x01
+0a9c:	9508     	ret
+0a9e:	9be1     	sbis  EECR, 1
+0aa0:	c002     	rjmp  0x0aa6
+0aa2:	95a8     	wdr
+0aa4:	cffc     	rjmp  0x0a9e
+0aa6:	b79f     	in    r25, SREG
+0aa8:	94f8     	sei
+0aaa:	bbae     	out   EEARL, r26
+0aac:	bbbf     	out   EEARH, r27
+0aae:	9ae0     	sbi  EECR, 0
+0ab0:	b38d     	in    r24, EEDR
+0ab2:	17e8     	cp    r30, r24
+0ab4:	f019     	breq  0x0abc
+0ab6:	bbed     	out   EEDR, r30
+0ab8:	9ae2     	sbi  EECR, 2
+0aba:	9ae1     	sbi  EECR, 1
+0abc:	bf9f     	out   SREG, r25
+0abe:	9508     	ret
+0ac0:	2355     	and   r21, r21
+0ac2:	f442     	brpl  0x0ad4
+0ac4:	3850     	cpi   r21, 0x80
+0ac6:	f411     	brne  0x0acc
+0ac8:	ffe0     	sbrs  r30, 0
+0aca:	c004     	rjmp  0x0ad4
+0acc:	9631     	adiw  r30, 0x01
+0ace:	1f69     	adc   r22, r25
+0ad0:	1f79     	adc   r23, r25
+0ad2:	f06b     	brvs  0x0aee
+0ad4:	e850     	ldi   r21, 0x80
+0ad6:	2757     	eor   r21, r23
+0ad8:	f411     	brne  0x0ade
+0ada:	935f     	push  r21
+0adc:	c0c8     	rjmp  0x0c6e
+0ade:	3f5f     	cpi   r21, 0xff
+0ae0:	f031     	breq  0x0aee
+0ae2:	0f66     	add   r22, r22
+0ae4:	0c00     	add   r0, r0
+0ae6:	9557     	ror   r21
+0ae8:	9567     	ror   r22
+0aea:	2f75     	mov   r23, r21
+0aec:	9508     	ret
+0aee:	935f     	push  r21
+0af0:	2000     	and   r0, r0
+0af2:	f00a     	brmi  0x0af6
+0af4:	c0c8     	rjmp  0x0c86
+0af6:	c0c1     	rjmp  0x0c7a
+0af8:	e850     	ldi   r21, 0x80
+0afa:	2e19     	mov   r1, r25
+0afc:	2215     	and   r1, r21
+0afe:	0f88     	add   r24, r24
+0b00:	1f99     	adc   r25, r25
+0b02:	2795     	eor   r25, r21
+0b04:	0f55     	add   r21, r21
+0b06:	9587     	ror   r24
+0b08:	e850     	ldi   r21, 0x80
+0b0a:	2e07     	mov   r0, r23
+0b0c:	2205     	and   r0, r21
+0b0e:	0f66     	add   r22, r22
+0b10:	1f77     	adc   r23, r23
+0b12:	2775     	eor   r23, r21
+0b14:	0f55     	add   r21, r21
+0b16:	9567     	ror   r22
+0b18:	9508     	ret
+0b1a:	9468     	set
+0b1c:	c001     	rjmp  0x0b20
+0b1e:	94e8     	set
+0b20:	935f     	push  r21
+0b22:	dff2     	rcall 0x0b08
+0b24:	3870     	cpi   r23, 0x80
+0b26:	f018     	brcs  0x0b2e
+0b28:	3f7f     	cpi   r23, 0xff
+0b2a:	f408     	brcc  0x0b2e
+0b2c:	c0a0     	rjmp  0x0c6e
+0b2e:	e156     	ldi   r21, 0x16
+0b30:	1b57     	sub   r21, r23
+0b32:	f4aa     	brpl  0x0b5e
+0b34:	9551     	neg   r21
+0b36:	3058     	cpi   r21, 0x08
+0b38:	f40e     	brtc  0x0b3c
+0b3a:	3059     	cpi   r21, 0x09
+0b3c:	f030     	brcs  0x0b4a
+0b3e:	efef     	ldi   r30, 0xff
+0b40:	efff     	ldi   r31, 0xff
+0b42:	ef6f     	ldi   r22, 0xff
+0b44:	e77f     	ldi   r23, 0x7f
+0b46:	f977     	bld   r23, 7
+0b48:	c01a     	rjmp  0x0b7e
+0b4a:	2777     	eor   r23, r23
+0b4c:	2355     	and   r21, r21
+0b4e:	f0b9     	breq  0x0b7e
+0b50:	0fee     	add   r30, r30
+0b52:	1fff     	adc   r31, r31
+0b54:	1f66     	adc   r22, r22
+0b56:	1f77     	adc   r23, r23
+0b58:	955a     	dec   r21
+0b5a:	f7d1     	brne  0x0b50
+0b5c:	c010     	rjmp  0x0b7e
+0b5e:	2777     	eor   r23, r23
+0b60:	3058     	cpi   r21, 0x08
+0b62:	f028     	brcs  0x0b6e
+0b64:	2fef     	mov   r30, r31
+0b66:	2ff6     	mov   r31, r22
+0b68:	2f67     	mov   r22, r23
+0b6a:	5058     	subi  r21, 0x08
+0b6c:	cff9     	rjmp  0x0b60
+0b6e:	2355     	and   r21, r21
+0b70:	f031     	breq  0x0b7e
+0b72:	9576     	lsr   r23
+0b74:	9567     	ror   r22
+0b76:	95f7     	ror   r31
+0b78:	95e7     	ror   r30
+0b7a:	955a     	dec   r21
+0b7c:	f7d1     	brne  0x0b72
+0b7e:	2000     	and   r0, r0
+0b80:	f40a     	brpl  0x0b84
+0b82:	df2d     	rcall 0x09de
+0b84:	915f     	pop   r21
+0b86:	9508     	ret
+0b88:	9468     	set
+0b8a:	c001     	rjmp  0x0b8e
+0b8c:	94e8     	set
+0b8e:	9730     	sbiw  r30, 0x00
+0b90:	4060     	sbci  r22, 0x00
+0b92:	4070     	sbci  r23, 0x00
+0b94:	f0b1     	breq  0x0bc2
+0b96:	2400     	eor   r0, r0
+0b98:	f026     	brts  0x0ba2
+0b9a:	2377     	and   r23, r23
+0b9c:	f412     	brpl  0x0ba2
+0b9e:	9400     	com   r0
+0ba0:	df1e     	rcall 0x09de
+0ba2:	2e17     	mov   r1, r23
+0ba4:	e17e     	ldi   r23, 0x1e
+0ba6:	2011     	and   r1, r1
+0ba8:	f032     	brmi  0x0bb6
+0baa:	957a     	dec   r23
+0bac:	0fee     	add   r30, r30
+0bae:	1fff     	adc   r31, r31
+0bb0:	1f66     	adc   r22, r22
+0bb2:	1c11     	adc   r1, r1
+0bb4:	cff9     	rjmp  0x0ba8
+0bb6:	2fef     	mov   r30, r31
+0bb8:	2ff6     	mov   r31, r22
+0bba:	2d61     	mov   r22, r1
+0bbc:	935f     	push  r21
+0bbe:	df8a     	rcall 0x0ad4
+0bc0:	915f     	pop   r21
+0bc2:	9508     	ret
+0bc4:	934f     	push  r20
+0bc6:	01af     	movw  r20, r30
+0bc8:	01fd     	movw  r30, r26
+0bca:	01da     	movw  r26, r20
+0bcc:	01ab     	movw  r20, r22
+0bce:	01bc     	movw  r22, r24
+0bd0:	01ca     	movw  r24, r20
+0bd2:	2d40     	mov   r20, r0
+0bd4:	2c01     	mov   r0, r1
+0bd6:	2e14     	mov   r1, r20
+0bd8:	914f     	pop   r20
+0bda:	9508     	ret
+0bdc:	0fea     	add   r30, r26
+0bde:	1ffb     	adc   r31, r27
+0be0:	1f68     	adc   r22, r24
+0be2:	9508     	ret
+0be4:	95e0     	com   r30
+0be6:	95f0     	com   r31
+0be8:	9560     	com   r22
+0bea:	5fef     	subi  r30, 0xff
+0bec:	4fff     	sbci  r31, 0xff
+0bee:	4f6f     	sbci  r22, 0xff
+0bf0:	9508     	ret
+0bf2:	935f     	push  r21
+0bf4:	df81     	rcall 0x0af8
+0bf6:	3890     	cpi   r25, 0x80
+0bf8:	f149     	breq  0x0c4c
+0bfa:	e850     	ldi   r21, 0x80
+0bfc:	2615     	eor   r1, r21
+0bfe:	3870     	cpi   r23, 0x80
+0c00:	f121     	breq  0x0c4a
+0c02:	2f57     	mov   r21, r23
+0c04:	1b59     	sub   r21, r25
+0c06:	f113     	brvs  0x0c4c
+0c08:	f412     	brpl  0x0c0e
+0c0a:	dfdc     	rcall 0x0bc4
+0c0c:	cffa     	rjmp  0x0c02
+0c0e:	3158     	cpi   r21, 0x18
+0c10:	f018     	brcs  0x0c18
+0c12:	27aa     	eor   r26, r26
+0c14:	27bb     	eor   r27, r27
+0c16:	2788     	eor   r24, r24
+0c18:	3058     	cpi   r21, 0x08
+0c1a:	f028     	brcs  0x0c26
+0c1c:	2fab     	mov   r26, r27
+0c1e:	2fb8     	mov   r27, r24
+0c20:	2788     	eor   r24, r24
+0c22:	5058     	subi  r21, 0x08
+0c24:	cff9     	rjmp  0x0c18
+0c26:	2355     	and   r21, r21
+0c28:	f029     	breq  0x0c34
+0c2a:	9586     	lsr   r24
+0c2c:	95b7     	ror   r27
+0c2e:	95a7     	ror   r26
+0c30:	955a     	dec   r21
+0c32:	f7d9     	brne  0x0c2a
+0c34:	2d50     	mov   r21, r0
+0c36:	2551     	eor   r21, r1
+0c38:	f062     	brmi  0x0c52
+0c3a:	dfd0     	rcall 0x0bdc
+0c3c:	f438     	brcc  0x0c4c
+0c3e:	9567     	ror   r22
+0c40:	95f7     	ror   r31
+0c42:	95e7     	ror   r30
+0c44:	9573     	inc   r23
+0c46:	f413     	brvc  0x0c4c
+0c48:	c01e     	rjmp  0x0c86
+0c4a:	dfbc     	rcall 0x0bc4
+0c4c:	df43     	rcall 0x0ad4
+0c4e:	915f     	pop   r21
+0c50:	9508     	ret
+0c52:	1bea     	sub   r30, r26
+0c54:	0bfb     	sbc   r31, r27
+0c56:	0b68     	sbc   r22, r24
+0c58:	f051     	breq  0x0c6e
+0c5a:	f410     	brcc  0x0c60
+0c5c:	9400     	com   r0
+0c5e:	dfc2     	rcall 0x0be4
+0c60:	2366     	and   r22, r22
+0c62:	f3a2     	brmi  0x0c4c
+0c64:	0fee     	add   r30, r30
+0c66:	1fff     	adc   r31, r31
+0c68:	1f66     	adc   r22, r22
+0c6a:	957a     	dec   r23
+0c6c:	f7cb     	brvc  0x0c60
+0c6e:	27ee     	eor   r30, r30
+0c70:	27ff     	eor   r31, r31
+0c72:	2766     	eor   r22, r22
+0c74:	2777     	eor   r23, r23
+0c76:	915f     	pop   r21
+0c78:	9508     	ret
+0c7a:	efef     	ldi   r30, 0xff
+0c7c:	efff     	ldi   r31, 0xff
+0c7e:	e76f     	ldi   r22, 0x7f
+0c80:	ef7f     	ldi   r23, 0xff
+0c82:	915f     	pop   r21
+0c84:	9508     	ret
+0c86:	efef     	ldi   r30, 0xff
+0c88:	efff     	ldi   r31, 0xff
+0c8a:	e76f     	ldi   r22, 0x7f
+0c8c:	e77f     	ldi   r23, 0x7f
+0c8e:	915f     	pop   r21
+0c90:	9508     	ret
+0c92:	935f     	push  r21
+0c94:	df31     	rcall 0x0af8
+0c96:	3870     	cpi   r23, 0x80
+0c98:	f421     	brne  0x0ca2
+0c9a:	2011     	and   r1, r1
+0c9c:	f40a     	brpl  0x0ca0
+0c9e:	cfed     	rjmp  0x0c7a
+0ca0:	cff2     	rjmp  0x0c86
+0ca2:	3890     	cpi   r25, 0x80
+0ca4:	f409     	brne  0x0ca8
+0ca6:	cfe3     	rjmp  0x0c6e
+0ca8:	2401     	eor   r0, r1
+0caa:	9408     	sec
+0cac:	0b97     	sbc   r25, r23
+0cae:	f41b     	brvc  0x0cb6
+0cb0:	f3d4     	brlt  0x0ca6
+0cb2:	2000     	and   r0, r0
+0cb4:	cff3     	rjmp  0x0c9c
+0cb6:	2f79     	mov   r23, r25
+0cb8:	931f     	push  r17
+0cba:	932f     	push  r18
+0cbc:	933f     	push  r19
+0cbe:	934f     	push  r20
+0cc0:	2411     	eor   r1, r1
+0cc2:	2711     	eor   r17, r17
+0cc4:	2722     	eor   r18, r18
+0cc6:	2733     	eor   r19, r19
+0cc8:	2744     	eor   r20, r20
+0cca:	2755     	eor   r21, r21
+0ccc:	e290     	ldi   r25, 0x20
+0cce:	17ae     	cp    r26, r30
+0cd0:	07bf     	cpc   r27, r31
+0cd2:	0786     	cpc   r24, r22
+0cd4:	0741     	cpc   r20, r17
+0cd6:	f030     	brcs  0x0ce4
+0cd8:	1bae     	sub   r26, r30
+0cda:	0bbf     	sbc   r27, r31
+0cdc:	0b86     	sbc   r24, r22
+0cde:	0b41     	sbc   r20, r17
+0ce0:	9408     	sec
+0ce2:	c001     	rjmp  0x0ce6
+0ce4:	9488     	sec
+0ce6:	1f55     	adc   r21, r21
+0ce8:	1f22     	adc   r18, r18
+0cea:	1f33     	adc   r19, r19
+0cec:	1c11     	adc   r1, r1
+0cee:	1faa     	adc   r26, r26
+0cf0:	1fbb     	adc   r27, r27
+0cf2:	1f88     	adc   r24, r24
+0cf4:	1f44     	adc   r20, r20
+0cf6:	959a     	dec   r25
+0cf8:	f751     	brne  0x0cce
+0cfa:	01f9     	movw  r30, r18
+0cfc:	2d61     	mov   r22, r1
+0cfe:	914f     	pop   r20
+0d00:	913f     	pop   r19
+0d02:	912f     	pop   r18
+0d04:	911f     	pop   r17
+0d06:	2366     	and   r22, r22
+0d08:	f032     	brmi  0x0d16
+0d0a:	0f55     	add   r21, r21
+0d0c:	1fee     	adc   r30, r30
+0d0e:	1fff     	adc   r31, r31
+0d10:	1f66     	adc   r22, r22
+0d12:	957a     	dec   r23
+0d14:	f243     	brvs  0x0ca6
+0d16:	ded4     	rcall 0x0ac0
+0d18:	915f     	pop   r21
+0d1a:	9508     	ret
+0d1c:	2399     	and   r25, r25
+0d1e:	f09a     	brmi  0x0d46
+0d20:	2377     	and   r23, r23
+0d22:	f042     	brmi  0x0d34
+0d24:	1797     	cp    r25, r23
+0d26:	f048     	brcs  0x0d3a
+0d28:	f429     	brne  0x0d34
+0d2a:	17ae     	cp    r26, r30
+0d2c:	07bf     	cpc   r27, r31
+0d2e:	0786     	cpc   r24, r22
+0d30:	f020     	brcs  0x0d3a
+0d32:	f031     	breq  0x0d40
+0d34:	9498     	sez
+0d36:	9488     	sec
+0d38:	9508     	ret
+0d3a:	9498     	sez
+0d3c:	9408     	sec
+0d3e:	9508     	ret
+0d40:	9418     	sez
+0d42:	9488     	sec
+0d44:	9508     	ret
+0d46:	2377     	and   r23, r23
+0d48:	f7c2     	brpl  0x0d3a
+0d4a:	1797     	cp    r25, r23
+0d4c:	f398     	brcs  0x0d34
+0d4e:	f7a9     	brne  0x0d3a
+0d50:	17ea     	cp    r30, r26
+0d52:	07fb     	cpc   r31, r27
+0d54:	0768     	cpc   r22, r24
+0d56:	f388     	brcs  0x0d3a
+0d58:	f399     	breq  0x0d40
+0d5a:	cfec     	rjmp  0x0d34
+0d5c:	2400     	eor   r0, r0
+0d5e:	160a     	cp    r0, r26
+0d60:	060b     	cpc   r0, r27
+0d62:	9508     	ret

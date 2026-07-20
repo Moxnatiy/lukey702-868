@@ -68,6 +68,10 @@ UP-2s = enter; DOWN-2s = back / exit. In this mode the heater triac is forced of
 | `d`  | PID derivative gain | 0 | 0…99 |
 | `OF` | ADC→°C offset (temperature calibration) | 38 | 0…150 |
 | `LO` | cooldown-complete temperature | 60 | 40…120 |
+| `TST`| display self-test | — | — |
+| `AT` | **PID auto-tune** (relay method @300 °C) | — | — |
+
+`AT` tunes P/I/d automatically — see [docs/FIRMWARE.md](docs/FIRMWARE.md#auto-tune-relay--åströmhägglund).
 
 ## Reverse-engineering tool
 

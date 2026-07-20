@@ -95,8 +95,26 @@ PB1=5V → zero current through the opto). No voltage reaches the heater.
 | `d`  | PID derivative gain (brakes on fast t° rise) | 0 | 0…99 |
 | `OF` | ADC→°C offset (temperature calibration) | 38 | 0…150 |
 | `LO` | cooldown-complete temperature | 60 | 40…120 |
+| `TST`| display self-test (lights every segment) | — | — |
+| `AT` | **PID auto-tune** (relay method, heats!) | — | — |
 
-Values are stored in EEPROM (0x04/0x06/0x0C/0x08/0x0A) and take effect after a restart.
+Parameter values are stored in EEPROM (0x04/0x06/0x0C/0x08/0x0A) and take effect immediately.
 
 **Tuning tips:** if the station reads ~10° high, open `OF` and decrease by 10. If it overshoots
 on heat-up, decrease `P` and/or increase `d`. If it settles below the setpoint, increase `I`.
+
+## Auto-tune (relay / Åström–Hägglund)
+
+The `AT` item tunes `P`/`I`/`d` automatically instead of by hand. It runs a bang-bang **relay**
+around **300 °C**, so the temperature settles into a sustained oscillation; the firmware measures
+its period `Pu` and amplitude `a`, computes the ultimate gain `Ku = 4·AT_D/(π·a)`, applies the
+**Tyreus–Luyben** rules, maps them to our discrete P/I/d (20 Hz loop, integral scale 2048,
+derivative window `DHIST`·0.05 s = 1.6 s) and saves the result.
+
+**How to run:** remove the wand from the stand (fan must be powered), enter `CAL` → `AT` → **UP 2 s**.
+The display shows the live temperature while it oscillates for a few cycles (~1–3 min); on success
+it shows `At` and the new P/I/d are stored. **DOWN 2 s** aborts.
+
+**Safety:** the heater is driven during `AT` (the only CAL action that heats). It aborts on
+over-temperature (`AT_TEMP_MAX`), timeout, the wand returning to the stand, or a DOWN long-press.
+Tune constants: `AT_TEMP`, `AT_RELAY_HIGH`, `AT_HYST` in `src/main.c`.

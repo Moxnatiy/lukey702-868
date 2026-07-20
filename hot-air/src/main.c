@@ -79,7 +79,20 @@
 #define DEF_OFFSET   38              /* OF: ADC->°C offset (calibrated 2026-07)   */
 #define DEF_LO       60              /* LO: cooldown-complete temperature         */
 #define HEAT_INT_MAX 80000           /* anti-windup: integral accumulator limit   */
-#define DHIST         8              /* derivative window: 8 steps @20Hz = 0.4 s  */
+#define DHIST        32              /* derivative window: 32 steps @20Hz = 1.6 s */
+
+/* PID relay auto-tune (Astrom-Hagglund). Runs a bang-bang relay around AT_TEMP,
+ * measures the limit-cycle period (Pu) and amplitude (a), computes the ultimate
+ * gain Ku = 4*AT_D/(pi*a) and applies Tyreus-Luyben rules -> g_kp/g_ki/g_kd. */
+#define AT_TEMP        300           /* tuning temperature, °C                    */
+#define AT_HYST          2           /* relay hysteresis, °C                      */
+#define AT_RELAY_HIGH  600           /* heater PWM while heating (relay high)     */
+#define AT_RELAY_LOW     0           /* heater PWM while cooling (relay low)      */
+#define AT_D           300           /* relay half-amplitude = (HIGH-LOW)/2       */
+#define AT_TEMP_MAX    400           /* safety: abort if temperature exceeds this */
+#define AT_TIMEOUT    6000           /* safety: abort after this many 20Hz steps  */
+#define AT_SKIP          1           /* discard the first cycle (warm-up transient)*/
+#define AT_USE           3           /* number of cycles to average               */
 
 /* Parameter editing ranges */
 #define KP_MIN 1
@@ -93,8 +106,9 @@
 #define LO_MIN 40
 #define LO_MAX 120
 
-#define NUM_ITEMS 6                  /* menu items: P I d OF LO TST */
+#define NUM_ITEMS 7                  /* menu items: P I d OF LO TST AT */
 #define ITEM_TST  5                  /* display test (lights all segments) */
+#define ITEM_AT   6                  /* PID relay auto-tune */
 
 /* Timings in 10 ms ticks (Timer0 ~100 Hz) */
 #define T_3S         300
@@ -566,14 +580,101 @@ static void show_menu_label(uint8_t item)
     case 2:  disp_set_raw(GL_d, GL_BLANK, GL_BLANK); break;   /* d   */
     case 3:  disp_set_raw(GL_O, GL_F, GL_BLANK);     break;   /* OF  */
     case 4:  disp_set_raw(GL_L, GL_O, GL_BLANK);     break;   /* LO  */
-    default: disp_set_raw(GL_t, GL_S, GL_t);         break;   /* TST */
+    case 5:  disp_set_raw(GL_t, GL_S, GL_t);         break;   /* TST */
+    default: disp_set_raw(GL_A, GL_t, GL_BLANK);     break;   /* AT (auto-tune) */
     }
 }
 
 /* ===================================================================== */
+/*  PID relay auto-tune (Astrom-Hagglund).                                 */
+/*  Drives a bang-bang relay around AT_TEMP, measures the sustained        */
+/*  oscillation (period Pu, amplitude a), computes the ultimate gain       */
+/*  Ku = 4*AT_D/(pi*a) and applies Tyreus-Luyben rules, mapped to our      */
+/*  discrete P/I/d (20 Hz loop, integral scale 2048, D window DHIST*0.05s). */
+/*  Returns 1 on success (P/I/d written & saved), 0 on abort/failure.       */
+/*  SAFETY: requires the wand off-stand with fan power; heater is driven    */
+/*  here, so this is the only CAL action that heats. Aborts on DOWN-2s,     */
+/*  on the wand returning to the stand, on over-temp, or on timeout.        */
+/* ===================================================================== */
+static uint8_t auto_tune(void)
+{
+    /* enable the heater PWM (it is disconnected while in the CAL menu) */
+    TCCR1A = 0xC3; TCCR1B = 0x04; OCR1A = 0;
+
+    /* wait for button release (we entered via UP long-press) */
+    while (btn_up_pressed() || btn_down_pressed())
+        if (tick_flag) tick_flag = 0;
+
+    /* precondition: wand removed from stand and fan powered */
+    if (!is_off_stand() || read_adc_avg(ADC_CH_FAN, 4) <= FAN_ON_RAW)
+        return 0;
+
+    uint8_t  relay_high = 1, sub = 0, result = 0;
+    int16_t  tmax = -1000, tmin = 1000;
+    uint16_t step = 0, cycle_start = 0, cyc = 0;
+    uint32_t sum_pu = 0;
+    int32_t  sum_a = 0;
+
+    for (;;) {
+        if (!tick_flag) continue;
+        tick_flag = 0;
+        if (++sub < CTRL_DIV) continue;   /* 20 Hz cadence */
+        sub = 0;
+        step++;
+
+        if (get_gesture() == EV_DN_LONG) { result = 0; break; }   /* user abort  */
+        if (!is_off_stand())             { result = 0; break; }   /* on stand -> abort */
+
+        int16_t t = adc_to_temp(read_adc_avg(ADC_CH_THERMO, 16));
+        if (t > AT_TEMP_MAX || step > AT_TIMEOUT) { result = 0; break; }  /* safety */
+
+        if (t > tmax) tmax = t;
+        if (t < tmin) tmin = t;
+
+        /* relay with hysteresis */
+        uint8_t prev = relay_high;
+        if      (t > AT_TEMP + AT_HYST) relay_high = 0;
+        else if (t < AT_TEMP - AT_HYST) relay_high = 1;
+        HEATER_PWM = relay_high ? AT_RELAY_HIGH : AT_RELAY_LOW;
+
+        /* cycle boundary: LOW->HIGH edge = start of a heating phase */
+        if (relay_high && !prev) {
+            if (cyc >= 1) {                       /* a full cycle just completed */
+                uint16_t pu  = step - cycle_start;
+                int16_t  amp = tmax - tmin;       /* peak-to-peak */
+                if (cyc > AT_SKIP) { sum_pu += pu; sum_a += amp; }
+            }
+            cycle_start = step;
+            tmax = tmin = t;
+            cyc++;
+            if (cyc > AT_SKIP + AT_USE) { result = 1; break; }
+        }
+
+        disp_set_number(t);                       /* show the live temperature */
+    }
+
+    HEATER_PWM = 0;
+
+    if (result) {
+        uint16_t pu = (uint16_t)(sum_pu / AT_USE);          /* period, 20Hz steps */
+        int16_t  a  = (int16_t)((sum_a / AT_USE) / 2);      /* amplitude, °C       */
+        if (a  < 1) a  = 1;
+        if (pu < 1) pu = 1;
+        /* Tyreus-Luyben + our scaling (AT_D=300, dt=0.05s, Tw=1.6s, Iscale=2048):
+           g_kp = 174/a ; g_ki = 161640/(a*pu) ; g_kd = 861*pu/(1000*a) */
+        g_kp = clamp_param(0, (int16_t)(174L / a));
+        g_ki = clamp_param(1, (int16_t)(161640L / ((int32_t)a * pu)));
+        g_kd = clamp_param(2, (int16_t)((861L * pu) / (1000L * a)));
+        save_param(0); save_param(1); save_param(2);
+    }
+    return result;
+}
+
+/* ===================================================================== */
 /*  Calibration menu. The triac is FORCED OFF (zero voltage to the heater).*/
-/*  Tree: [P] [I] [d] [OF] [LO] [TST]. UP-2s = enter, DN-2s = back/exit,    */
-/*  short UP/DN = navigate / change the value ±1. TST lights all segments.  */
+/*  Tree: [P] [I] [d] [OF] [LO] [TST] [AT]. UP-2s = enter, DN-2s = back/exit,*/
+/*  short UP/DN = navigate / change the value ±1. TST lights all segments;   */
+/*  AT runs the PID auto-tune (heats!).                                     */
 /* ===================================================================== */
 static void cal_mode(void)
 {
@@ -609,6 +710,17 @@ static void cal_mode(void)
             else if (ev == EV_DN)      item = (uint8_t)((item + NUM_ITEMS - 1) % NUM_ITEMS);
             else if (ev == EV_UP_LONG) {
                 if (item == ITEM_TST) level = 2;            /* display test */
+                else if (item == ITEM_AT) {                 /* PID auto-tune */
+                    uint8_t ok = auto_tune();
+                    TCCR1A = 0x00; PORTB |= (1 << PB1);     /* heater hard off (CAL safety) */
+                    HEATER_PWM = 0;
+                    if (ok) disp_set_raw(GL_A, GL_t, GL_BLANK);  /* "At" done */
+                    else    disp_show_dashes();                  /* aborted/failed */
+                    for (uint16_t w = 0; w < 150; )
+                        if (tick_flag) { tick_flag = 0; w++; }
+                    while (btn_up_pressed() || btn_down_pressed())
+                        if (tick_flag) tick_flag = 0;
+                }
                 else { val = get_param(item); level = 1; } /* edit a parameter */
             }
             else if (ev == EV_DN_LONG) return;             /* exit calibration */
